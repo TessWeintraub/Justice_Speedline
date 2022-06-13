@@ -11,6 +11,9 @@
     padding: 1rem 1.5rem;
     cursor: pointer;
 }
-.button img{
-    padding-right: 16px;
+.button svg{
+    margin-right: 16px;
+}
+.icon{
+    stroke: blue!important;
 }

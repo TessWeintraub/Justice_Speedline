@@ -18,7 +18,9 @@
     border-left: 2px solid  #EE950F;
     padding: 16px 30px;
 }
+.navBar_ul li:hover button svg path,
 .navBar_ul li:hover button
 {
     color: #EE950F!important;
+    stroke: #EE950F!important;
 }
