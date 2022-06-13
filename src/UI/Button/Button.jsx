@@ -9,7 +9,8 @@ const Button = (
         fontSize,
         color,
         background,
-        fontWeight
+        fontWeight,
+        src
     }
 ) => {
     return (
@@ -18,14 +19,17 @@ const Button = (
             onClick={onClick}
             style={
                 {
+                    display: src && 'flex',
+                    alignItems: src && 'center',
                     fontSize: fontSize,
                     color: color,
-                    padding: padding,
+                    padding: src ? '0 0' : padding,
                     background: background,
                     fontWeight: fontWeight
                 }
             }
         >
+            {src && <img src={src} alt='icon'/>}
             {text}
         </button>
     );

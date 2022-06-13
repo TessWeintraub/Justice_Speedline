@@ -11,3 +11,6 @@
     padding: 1rem 1.5rem;
     cursor: pointer;
 }
+.button img{
+    padding-right: 16px;
+}
