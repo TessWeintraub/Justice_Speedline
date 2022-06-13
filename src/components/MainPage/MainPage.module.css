@@ -1,0 +1,13 @@
+.wrapper{
+    margin: 0 auto;
+    padding: 1.25rem 0;
+    max-width: 1200px;
+    width: 70%;
+}
+.mainPage{
+    min-width: 100vw;
+    min-height: 100vh;
+    background:  no-repeat url("../../assets/background/track.png"),no-repeat url("../../assets/background/background.png");
+    background-position:  center right,top right;
+    background-size: 55% 75%,  42% 100vh;
+}

@@ -1,0 +1,15 @@
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.6875rem 0;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.header div{
+    display: flex;
+    align-items: center;
+}
+.header div img{
+    padding-right: 15%;
+}

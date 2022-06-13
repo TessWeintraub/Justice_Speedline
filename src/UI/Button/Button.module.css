@@ -1,0 +1,13 @@
+.button{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    line-height: 0.875rem;
+    border: 0;
+    color: white;
+    font-size: 0.875rem;
+    background: #EE950F;
+    border-radius: 3px;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+}
