@@ -9,6 +9,7 @@ body, #root {
   min-width: 100vw;
   min-height: 100vh;
   background: white;
+  overflow: hidden;
 }
 *{
   margin: 0;

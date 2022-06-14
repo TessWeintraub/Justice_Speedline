@@ -1,0 +1,25 @@
+.select{
+    display: flex;
+    border: 1px solid #E6E8EA;
+    border-radius: 3px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 14px;
+    width: 190px;
+    height: 44px;
+    max-height: 44px;
+}
+.select input{
+    outline: none;
+    border: 0;
+    color: #3E4C59D9;
+    width: 100%;
+}
+.select input::placeholder{
+    color:   #3E4C59D9;
+}
+.select input::-webkit-calendar-picker-indicator {
+    display: none;
+}

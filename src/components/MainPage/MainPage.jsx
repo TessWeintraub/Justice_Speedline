@@ -31,19 +31,20 @@ const MainPage = () => {
                 </Header>
                 <Main/>
             </div>
-            {
-                isModal.sign_up
-                &&
-                <Modal title={'Sign up'}
-                       buttonOnclick={(e)=>console.log(e.target)}
-                       buttonText={'Sign up'}
-                       close={()=>modalUpdate('sign_up',false)}
-                       setIsModal={()=>modalUpdate('sign_up',false, 'log_in')}
+            {isModal.sign_up && (
+                <Modal
+                    title={'Sign up'}
+                    buttonOnclick={(e) => console.log(e.target)}
+                    buttonText={'Sign up'}
+                    close={() => modalUpdate('sign_up', false)}
+                    setIsModal={() => modalUpdate('sign_up', false, 'log_in')}
                 >
 
-                    <Input label={'Email'} placeholder={'Enter a email'} onChange={(e)=>console.log(e.target.value)}/>
-                    <Input label={'Password'} placeholder={'Enter password'} onChange={(e)=>console.log(e.target.value)}/>
+                    <Input label={'Email'} placeholder={'Enter a email'} onChange={(e) => console.log(e.target.value)}/>
+                    <Input label={'Password'} placeholder={'Enter password'}
+                           onChange={(e) => console.log(e.target.value)}/>
                 </Modal>
+            )
             }
             {
                 isModal.log_in

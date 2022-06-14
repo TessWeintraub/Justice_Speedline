@@ -1,0 +1,8 @@
+.warehouses{
+    display: flex;
+    overflow: hidden;
+}
+.warehouses_content{
+    width: calc( 100vw - 240px);
+    height: 100vh;
+}

@@ -1,0 +1,21 @@
+.search{
+    outline: none;
+    border: 1px solid #ECEFF2;
+    border-radius: 3px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    width: 281px;
+    padding: 1rem 1rem 1rem 2.5rem;
+    background: no-repeat url("../../assets/svg/search.svg");
+    background-position: center  left 16px;
+}
+.search::placeholder{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    color: #3E4C59;
+    opacity: 0.3;
+}

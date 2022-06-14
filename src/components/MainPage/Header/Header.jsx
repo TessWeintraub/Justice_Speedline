@@ -1,13 +1,13 @@
 import React from 'react';
 import Button from "../../../UI/Button/Button";
-import logo from '../../../assets/logo/Logo.svg'
+import {logoIcon} from "../../../mockdata/icons";
 import classes from "./Header.module.css";
 
 const Header = ({children,logIn,signUp}) => {
     return (
         <header className={classes.header}>
             <div>
-                <img src={logo} alt={'Logo'}/>
+                {logoIcon}
                 {children}
             </div>
             <div>
