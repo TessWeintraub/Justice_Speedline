@@ -14,9 +14,8 @@ const Main = ({data, onClick , setWarehouse}) => {
         continue: false
     })
 
-    useEffect(()=>{
-        console.log(isModal)
-    },[isModal])
+
+
     const modalUpdate = (keys,boolean,keys2) => {
         setIsModal({
             ...isModal,
@@ -24,6 +23,32 @@ const Main = ({data, onClick , setWarehouse}) => {
             [keys2 && keys2]: !boolean
         })
     }
+
+    // const Modal = () => {
+    //     console.log(isModal)
+    //     if((isModal.continue) || (isModal.processing)) return (
+    //         <Modal
+    //             title={(isModal.processing && 'Adding a warehouse') || (isModal.continue && 'Warehouse successfully added')}
+    //             buttonText={(isModal.processing && 'Adding a warehouse') || (isModal.continue && 'Continue')}
+    //             buttonOnclick={
+    //                 () =>
+    //                     (isModal.processing && modalUpdate('processing', false, 'continue'))
+    //                     ||
+    //                     (isModal.continue && modalUpdate('continue', false))}
+    //             close={() => (isModal.processing && modalUpdate('processing', false)) || (isModal.continue && modalUpdate('continue', false))}
+    //             src={isModal.continue && houseModal}
+    //         >
+    //
+    //             <Input label={'Name of the warehouse'} placeholder={'Enter a name'}/>
+    //             <Input label={'Length, m'} placeholder={'Enter the length'}/>
+    //             <Input label={'Width, m'} placeholder={'Enter the width'}/>
+    //             <Input label={'Height, m'} placeholder={'Enter the height'}/>
+    //         </Modal>
+    //     )
+    //
+    // }
+
+
     return (
         <>
             <main className={classes.main}>
@@ -59,38 +84,6 @@ const Main = ({data, onClick , setWarehouse}) => {
                     </div>
                 </section>
             </main>
-
-    {(isModal.continue) || (isModal.processing)  && (
-        <Modal
-            title ={(isModal.processing && 'Adding a warehouse') || (isModal.continue && 'Warehouse successfully added')}
-            buttonText ={(isModal.processing && 'Adding a warehouse') || (isModal.continue && 'Continue')}
-            buttonOnclick={
-            () =>
-                (isModal.processing && modalUpdate('processing', false, 'continue'))
-                ||
-                (isModal.continue && modalUpdate('continue', false))}
-            close={() => (isModal.processing && modalUpdate('processing', false)) || (isModal.continue && modalUpdate('continue', false))}
-            src= {isModal.continue && houseModal}
-        >
-
-            <Input label={'Name of the warehouse'} placeholder={'Enter a name'}/>
-            <Input label={'Length, m'} placeholder={'Enter the length'}/>
-            <Input label={'Width, m'} placeholder={'Enter the width'}/>
-            <Input label={'Height, m'} placeholder={'Enter the height'}/>
-        </Modal>
-    )
-    }
-    {/*{*/}
-    {/*    isModal.continue && (*/}
-    {/*    <Modal title={'Warehouse successfully added'}*/}
-    {/*           buttonOnclick={()=>modalUpdate('continue', false)}*/}
-    {/*           buttonText={'Continue'}*/}
-    {/*           close={() => modalUpdate('continue', false)}*/}
-    {/*           src={houseModal}*/}
-    {/*    >*/}
-    {/*    </Modal>*/}
-    {/*    )*/}
-    {/*}*/}
     </>
     );
 };

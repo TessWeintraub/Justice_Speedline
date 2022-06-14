@@ -5,8 +5,8 @@ import Warehouses from "./components/Warehouses/Warehouses";
 function App() {
   return (
     <div className="App">
-      {/*<MainPage/>*/}
-        <Warehouses/>
+      <MainPage/>
+      {/*<Warehouses/>*/}
     </div>
   );
 }
