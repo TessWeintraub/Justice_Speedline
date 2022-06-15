@@ -29,13 +29,13 @@ const Modal = ({
         </div>
 
 
-        {title === 'Sign up'
+        {title === 'Sign Up'
           &&
           <p className={classes.modal__content_prompt}>
             Already have an account?
             <span onClick={setIsModal}>Log in</span>
           </p>}
-        {title === 'Log in'
+        {title === 'Log In'
           &&
           <p className={classes.modal__content_prompt}>
             No account?

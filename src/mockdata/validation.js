@@ -11,7 +11,7 @@ export const processingInput = e => {
   const inputsValue = inputsError.filter(element => element && element)
   if (!inputsValue.length) return
   const inputsValidate = inputsValue.filter(input => validation(input) && input)
-  if (inputsValidate.length === inputsAll.length) console.log(inputsValidate)
+  if (inputsValidate.length === inputsAll.length) return inputsValidate
 }
 
 export const inputErrorMessage = input => {
@@ -25,4 +25,22 @@ export const validation = input => {
     default:
       return false
   }
+}
+
+export const registration = e =>{
+  const inputsValidRegExp = processingInput(e)
+  const invalidEmail = inputsValidRegExp.filter(input => input.name === 'email')
+
+
+
+}
+
+export const requestLocalUsers = () => {
+  const localRequest = localStorage.getItem('Users')
+  const localUsers = localRequest ? [...JSON.parse(localRequest)] : undefined
+  return localUsers
+}
+
+export const updateLocalUsers = () => {
+
 }

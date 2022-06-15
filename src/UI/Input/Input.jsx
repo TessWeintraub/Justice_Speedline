@@ -20,7 +20,8 @@ const Input = ({
     <label className={classes.label}>
       {label}
       <input
-        onChange={regular ? (e) => setErrorValid(!Patterns.test(e.target.value)) : onChange}
+        onChange={onChange}
+        onBlur={ (e) => setErrorValid(!Patterns.test(e.target.value))}
         className={classes.input}
         placeholder={placeholder}
         name={label.toLowerCase()}

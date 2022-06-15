@@ -10,6 +10,14 @@ import { ReactComponent as NotificationIcon } from '../assets/svg/notification.s
 import { ReactComponent as ProfileIcon } from '../assets/svg/profile.svg';
 import { ReactComponent as SettingIcon } from '../assets/svg/setting.svg';
 import { ReactComponent as CategoryIcon } from '../assets/svg/category.svg';
+import { ReactComponent as CheckedIcon } from "../assets/svg/checked.svg";
+import { ReactComponent as AirIcon } from "../assets/svg/air.svg";
+import { ReactComponent as BoatIcon } from "../assets/svg/boat.svg";
+import { ReactComponent as TrackIcon } from "../assets/svg/track.svg";
+import { ReactComponent as CardIcon } from "../assets/svg/card.svg";
+import { ReactComponent as MoneyIcon } from "../assets/svg/money.svg";
+import { ReactComponent as PaypalIcon } from "../assets/svg/paypal.svg";
+
 
 export const homeIcon = <HomeIcon/>
 export const userIcon = <UserIcon/>
@@ -23,4 +31,11 @@ export const notificationIcon = <NotificationIcon/>
 export const profileIcon = <ProfileIcon/>
 export const settingIcon = <SettingIcon/>
 export const categoryIcon = <CategoryIcon/>
+export const checkedIcon = <CheckedIcon/>
+export const airIcon = <AirIcon/>
+export const trackIcon = <TrackIcon/>
+export const boatIcon = <BoatIcon/>
+export const cardIcon = <CardIcon/>
+export const paypalIcon = <PaypalIcon/>
+export const moneyIcon = <MoneyIcon/>
 
