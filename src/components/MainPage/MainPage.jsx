@@ -4,7 +4,7 @@ import Button from "../../UI/Button/Button";
 import Main from "./Main/Main";
 import Input from "../../UI/Input/Input";
 import Modal from "../../UI/Modal/Modal";
-import {processingInput, Patterns, registration} from "../../mockdata/validation";
+import {processingInput, Patterns, registration, authorization} from "../../mockdata/validation";
 import classes from "./MainPage.module.css";
 
 const MainPage = () => {
@@ -41,15 +41,15 @@ const MainPage = () => {
             {isModal &&
                 < Modal
                     title={isModal}
-                    onSubmit={(e) => logIn && registration(e) || signUp && registration(e)}
+                    onSubmit={(e) => logIn && (authorization(e) && setIsModal('')) || signUp && (registration(e)&& setIsModal('Log In'))}
                     buttonText={isModal}
                     close={() => setIsModal('')}
                     setIsModal={() => logIn && setIsModal('Sign Up') || signUp && setIsModal('Log In')}
                 >
                     {isModal === 'Sign Up' &&
                         <>
-                            <Input label={'Email'} placeholder={'Enter a email'}/>
-                            <Input label={'Password'} placeholder={'Enter password'}/>
+                            <Input label={'Email'} placeholder={'Enter a email'} regular={Patterns.email} errorMessage={'Введите корректный email'}/>
+                            <Input label={'Password'} placeholder={'Enter password'} regular={Patterns.password} errorMessage={'Введите корректный пароль'}/>
                         </>
                     }
                     {isModal === 'Log In' &&
