@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from "./Button.module.css";
 
 const Button = (
@@ -10,13 +10,17 @@ const Button = (
     color,
     background,
     fontWeight,
-    children
+    children,
+    btnDisabled
   }
 ) => {
+    useEffect(()=>{
+        console.log(btnDisabled)},[btnDisabled])
   return (
     <button
       className={classes.button}
       onClick={onClick}
+      disabled={btnDisabled && btnDisabled}
       style={
         {
           display: children && 'flex',

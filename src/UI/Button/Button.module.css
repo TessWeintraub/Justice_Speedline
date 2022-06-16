@@ -11,6 +11,10 @@
     padding: 1rem 1.5rem;
     cursor: pointer;
 }
+.button:disabled{
+    background: #CED6DD;
+    color: #EE950F;
+}
 .button svg{
     margin-right: 16px;
 }

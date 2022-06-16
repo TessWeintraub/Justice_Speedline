@@ -2,7 +2,7 @@
 
 export const Patterns = {
   email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  password: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  password: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 }
 
 export const processingInput = e => {
@@ -32,7 +32,7 @@ export const validation = input => {
 export const registration = e => {
   const inputsValidRegExp = processingInput(e)
   const invalidEmail = inputsValidRegExp.filter(input => input.name === 'email')
-  const localUsers = [...requestLocalUsers()]
+  const localUsers = requestLocalUsers()
   const localUserEmail = localUsers ? localUsers.filter(user => user.email === invalidEmail[0].value) : false
   if (localUserEmail.length){
       return false

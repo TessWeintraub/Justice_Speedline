@@ -5,30 +5,27 @@ const Input = ({
                  label,
                  placeholder,
                  onChange,
-                 regular,
-                 errorMessage
+                 onBlur,
+                 errorMessage,
+                 name,
+                type
                }
 ) => {
-  const [errorValid, setErrorValid] = useState(false)
-  const Patterns = regular
 
 
-  useEffect(() => {
-    console.log(errorValid)
-  }, [errorValid])
   return (
     <label className={classes.label}>
       {label}
       <input
         onChange={onChange}
-        onBlur={ (e) => setErrorValid(!Patterns.test(e.target.value))}
+        onBlur={onBlur}
         className={classes.input}
         placeholder={placeholder}
-        name={label.toLowerCase()}
+        name={name ? name : label.toLowerCase()}
+        type={type ? type : 'text'}
         data-input
       />
-      {errorMessage && <p className={classes.errorMessage}
-                          style={{display: errorMessage && errorValid ? 'block' : 'none'}}>{errorMessage}</p>}
+      {errorMessage && <p className={classes.errorMessage}>{errorMessage}</p>}
     </label>
   );
 };

@@ -7,46 +7,19 @@ import Modal from "../../UI/Modal/Modal";
 import Input from "../../UI/Input/Input";
 import classes from "./Main.module.css";
 import houseModal from '../../assets/svg/houseModal.svg'
+import {validation} from "../../mockdata/validation";
 
 const Main = ({data, onClick , setWarehouse}) => {
-    const [isModal,setIsModal] = useState({
-        processing: false,
-        continue: false
-    })
+    const [isModal,setIsModal] = useState('')
 
 
 
-    const modalUpdate = (keys,boolean,keys2) => {
-        setIsModal({
-            ...isModal,
-            [keys]: boolean,
-            [keys2 && keys2]: !boolean
-        })
-    }
 
-    // const Modal = () => {
-    //     console.log(isModal)
-    //     if((isModal.continue) || (isModal.processing)) return (
-    //         <Modal
-    //             title={(isModal.processing && 'Adding a warehouse') || (isModal.continue && 'Warehouse successfully added')}
-    //             buttonText={(isModal.processing && 'Adding a warehouse') || (isModal.continue && 'Continue')}
-    //             buttonOnclick={
-    //                 () =>
-    //                     (isModal.processing && modalUpdate('processing', false, 'continue'))
-    //                     ||
-    //                     (isModal.continue && modalUpdate('continue', false))}
-    //             close={() => (isModal.processing && modalUpdate('processing', false)) || (isModal.continue && modalUpdate('continue', false))}
-    //             src={isModal.continue && houseModal}
-    //         >
-    //
-    //             <Input label={'Name of the warehouse'} placeholder={'Enter a name'}/>
-    //             <Input label={'Length, m'} placeholder={'Enter the length'}/>
-    //             <Input label={'Width, m'} placeholder={'Enter the width'}/>
-    //             <Input label={'Height, m'} placeholder={'Enter the height'}/>
-    //         </Modal>
-    //     )
-    //
-    // }
+
+
+
+
+
 
 
     return (
@@ -56,7 +29,7 @@ const Main = ({data, onClick , setWarehouse}) => {
                     <h1 className={classes.main_title_h1}>{data.characteristic.title}</h1>
                     <div className={classes.main_title_content}>
                         <Select/>
-                        <Button text={data.characteristic.button_text} onClick={()=>modalUpdate('processing', true)} fontSize={'0.75rem'} />
+                        <Button text={data.characteristic.button_text} onClick={()=>setIsModal('Adding')} fontSize={'0.75rem'} />
                     </div>
                 </section>
                 <section className={classes.main_content}>
@@ -84,6 +57,30 @@ const Main = ({data, onClick , setWarehouse}) => {
                     </div>
                 </section>
             </main>
+
+
+            {isModal &&
+            <Modal
+                title={(isModal && 'Adding') || (isModal && 'Continue')}
+                buttonText={(isModal && 'Adding') || (isModal && 'Continue')}
+                buttonOnclick={
+                    () =>
+                        (isModal && setIsModal((e)=> validation(e) && 'Continue'))
+                        ||
+                        (isModal && setIsModal(''))}
+                close={() => setIsModal('')}
+                src={isModal === 'Continue' && houseModal}
+            >
+                {isModal === 'Adding' &&
+                <>
+                <Input label={'Name of the warehouse'} placeholder={'Enter a name'} name='add_warehouse'/>
+                <Input label={'Length, m'} placeholder={'Enter the length'} name='length'/>
+                <Input label={'Width, m'} placeholder={'Enter the width'} name='width'/>
+                <Input label={'Height, m'} placeholder={'Enter the height'} name='height'/>
+                </>
+                }
+            </Modal>
+        }
     </>
     );
 };
