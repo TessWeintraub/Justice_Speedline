@@ -6,13 +6,12 @@ import Modal from "../../UI/Modal/Modal";
 import classes from "./MainPage.module.css";
 import SignUp from "./SignUp/SignUp";
 import LogIn from "./LogIn/LogIn";
+import {useUserContext} from "../../context/userContext";
 
 const MainPage = () => {
     const [isModal, setIsModal] = useState('')
-
-
-
-
+    const {users,setUsers} = useUserContext()
+    console.log(users)
 
     return (
         <section className={classes.mainPage}>
@@ -46,12 +45,12 @@ const MainPage = () => {
 
 
             {isModal &&
-                < Modal
+                <Modal
                     title={isModal}
                     buttonText={isModal}
                     close={() => setIsModal('')}
                 >
-                    {isModal === 'Sign Up' && <SignUp/>}
+                    {isModal === 'Sign Up' && <SignUp setModal={setIsModal}/>}
                     {isModal === 'Log In' && <LogIn/>}
                 </Modal>
             }

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import classes from "./Button.module.css";
 
 const Button = (
@@ -14,24 +14,23 @@ const Button = (
     btnDisabled
   }
 ) => {
-    useEffect(()=>{
-        console.log(btnDisabled)},[btnDisabled])
+const styleProps ={
+    display: children && 'flex',
+    alignItems: children && 'center',
+    fontSize: fontSize,
+    color: color,
+    padding: children ? '0 0' : padding,
+    background: background,
+    fontWeight: fontWeight
+}
+
+
   return (
     <button
       className={classes.button}
       onClick={onClick}
       disabled={btnDisabled && btnDisabled}
-      style={
-        {
-          display: children && 'flex',
-          alignItems: children && 'center',
-          fontSize: fontSize,
-          color: color,
-          padding: children ? '0 0' : padding,
-          background: background,
-          fontWeight: fontWeight
-        }
-      }
+      style={styleProps}
     >
       {children && children}
       {text}

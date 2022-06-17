@@ -19,10 +19,9 @@ const Modal = ({
         {src && <img src={src} alt="modal_image" className={classes.modal__content__image}/>}
         {title && <h1 className={classes.modal__content_title}>{title}</h1>}
 
-
         <div className={classes.modal__content__elements}>
           {children}
-            {btnOnClick && <Button text={btnText} onClick={btnOnClick}/>}
+            {src && <Button text={btnText} onClick={btnOnClick}/>}
         </div>
 
 

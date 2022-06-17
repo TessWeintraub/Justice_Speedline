@@ -1,51 +1,56 @@
-import React, {useState} from 'react';
+import React from 'react';
 import classes from "./PurchasingTechnology.module.css";
 
-const PurchasingTechnology = () => {
-    const [isCheck,setIsCheck] = useState(<></>)
+const PurchasingTechnology = ({setIsCheck, isCheck}) => {
+  const labelAttribute = (letter) => {
     return (
-        <div className={classes.container}>
-            <p className={classes.container_title}>Purchasing technology</p>
-            <div className={classes.container_content}>
-                <label
-                    className={classes.container_content_label}
-                    htmlFor='radio_A'
-                    style={{color: isCheck.id === 'radio_A' && isCheck.checked && '#2B3844'}}
-                >
-                    A
-                    <input type="radio" name='purchasingTechnology' id='radio_A' value='A' onClick={(e)=>setIsCheck(e.target)}/>
-                    <span className={classes.container_content_label_checkmark}></span>
-                </label>
-                <label
-                    className={classes.container_content_label}
-                    htmlFor='radio_S'
-                    style={{color: isCheck.id === 'radio_S' && isCheck.checked && '#2B3844'}}
-                >
-                    S
-                    <input type="radio" name='purchasingTechnology' id='radio_S' value='S' onClick={(e)=>setIsCheck(e.target)}/>
-                    <span className={classes.container_content_label_checkmark}></span>
-                </label>
-                <label
-                    className={classes.container_content_label}
-                    htmlFor='radio_D'
-                    style={{color: isCheck.id === 'radio_D' && isCheck.checked && '#2B3844'}}
-                >
-                    D
-                    <input type="radio" name='purchasingTechnology' id='radio_D' value='D' onClick={(e)=>setIsCheck(e.target)}/>
-                    <span className={classes.container_content_label_checkmark}></span>
-                </label>
-                <label
-                    className={classes.container_content_label}
-                    htmlFor='radio_F'
-                    style={{color: (isCheck.id === 'radio_F' && isCheck.checked) && '#2B3844'}}
-                >
-                    F
-                    <input type="radio" name='purchasingTechnology' id='radio_F' value='F' onClick={(e)=>setIsCheck(e.target)}/>
-                    <span className={classes.container_content_label_checkmark}></span>
-                </label>
-            </div>
-        </div>
-    );
+      {
+        className: classes.container_content_label,
+        style: {color: isCheck.id === `radio_${letter}` && isCheck.checked && '#2B3844'},
+        htmlFor: `radio_${letter}`
+      }
+    )
+  }
+
+  const inputAttribute = (letter) => {
+    return (
+      {
+        type: 'radio',
+        name: 'purchasingTechnology',
+        id: `radio_${letter}`,
+        value: `${letter}`,
+        onClick: setIsCheck
+      }
+    )
+  }
+
+  return (
+    <div className={classes.container}>
+      <p className={classes.container_title}>Purchasing technology</p>
+      <div className={classes.container_content}>
+        <label {...labelAttribute('A')}>
+          A
+          <input {...inputAttribute('A')}/>
+          <span className={classes.container_content_label_checkmark}></span>
+        </label>
+        <label {...labelAttribute('S')}>
+          S
+          <input {...inputAttribute('S')}/>
+          <span className={classes.container_content_label_checkmark}></span>
+        </label>
+        <label {...labelAttribute('D')}>
+          D
+          <input {...inputAttribute('D')}/>
+          <span className={classes.container_content_label_checkmark}></span>
+        </label>
+        <label {...labelAttribute('F')}>
+          F
+          <input {...inputAttribute('F')}/>
+          <span className={classes.container_content_label_checkmark}></span>
+        </label>
+      </div>
+    </div>
+  );
 };
 
 export default PurchasingTechnology;

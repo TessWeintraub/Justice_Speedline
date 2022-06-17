@@ -1,22 +1,27 @@
-.container{
+.container {
     display: flex;
     flex-direction: column;
     gap: 24px;
     justify-content: left;
     max-width: 300px;
     max-height: 66px;
+    padding-bottom: 80px;
 }
-.container_title{
+
+.container_title {
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 14px;
 }
-.container_content{
+
+.container_content {
     display: flex;
     align-items: center;
+    position: relative;
     gap: 24px;
 }
+
 .container_content_label {
     display: flex;
     align-items: center;
@@ -53,7 +58,6 @@
 }
 
 
-
 .container_content_label input:checked ~ .container_content_label_checkmark {
     background-color: #FFFFFF;
 }
@@ -67,6 +71,7 @@
 .container_content_label input:checked ~ .container_content_label_checkmark:after {
     display: block;
 }
+
 .container_content_label input:checked ~ .container_content_label {
     color: #3E4C59;
 }
@@ -78,4 +83,15 @@
     height: 12px;
     border-radius: 50%;
     background: #EE950F;
+}
+
+.errorMessage {
+    position: absolute;
+    bottom: 0;
+    left: 0.75rem;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.75rem;
+    color: red;
 }

@@ -7,8 +7,8 @@ function App() {
   return (
       <UserProvider>
           <div className="App">
-              <MainPage/>
-              {/*<Warehouses/>*/}
+              {/*<MainPage/>*/}
+              <Warehouses />
           </div>
       </UserProvider>
   );

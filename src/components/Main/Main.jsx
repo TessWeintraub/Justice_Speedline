@@ -1,16 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Button from "../../UI/Button/Button";
 import Select from "../../UI/Select/Select";
 import Checkbox from "../../UI/Checkbox/Checkbox";
 import Product from "../../UI/Product/Product";
 import Modal from "../../UI/Modal/Modal";
-import Input from "../../UI/Input/Input";
+import AddWarehouse from "../AddWarehouse/AddWarehouse";
 import classes from "./Main.module.css";
 import houseModal from '../../assets/svg/houseModal.svg'
-import {validation} from "../../mockdata/validation";
+import PurchasingTechnology from "../../UI/PurchasingTechnology/PurchasingTechnology";
+import AddProductStepOne from "../AddProduct/AddProductStepOne/AddProductStepOne";
 
-const Main = ({data, onClick , setWarehouse}) => {
+
+const Main = ({data,  setWarehouse}) => {
     const [isModal,setIsModal] = useState('')
+
 
 
 
@@ -29,13 +32,20 @@ const Main = ({data, onClick , setWarehouse}) => {
                     <h1 className={classes.main_title_h1}>{data.characteristic.title}</h1>
                     <div className={classes.main_title_content}>
                         <Select/>
-                        <Button text={data.characteristic.button_text} onClick={()=>setIsModal('Adding')} fontSize={'0.75rem'} />
+                        <Button
+                          text={data.characteristic.button_text}
+                          onClick={()=>data.warehouses && setIsModal('Adding') || data.products && setIsModal('Add Product')}
+                          fontSize={'0.75rem'}
+                        />
                     </div>
                 </section>
                 <section className={classes.main_content}>
                     <div className={classes.main_content_title}>
                         <div className={classes.main_content_title_products}>
-                            <Checkbox onClick={()=>console.log(true)} idCheckbox={'All_checkbox'}/>
+                            <Checkbox
+                              onClick={()=>console.log(true)}
+                              idCheckbox={'All_checkbox'}
+                            />
                             <p>{data.characteristic.one}</p>
                         </div>
                         <div className={classes.main_content_title_category}>
@@ -53,7 +63,7 @@ const Main = ({data, onClick , setWarehouse}) => {
                     </div>
                     <div className={classes.main_content_products}>
                         {data.warehouses && data.warehouses.map(element=><Product data={element} onClick={()=>setWarehouse(element)} onChecked={()=>console.log(true)}/>)}
-                        {data.products && data.products.map(element=><Product data={element} onClick={()=>console.log(true)}/>)}
+                        {data.products && data.products.map(element=><Product data={element} onClick={()=>console.log(true)} />)}
                     </div>
                 </section>
             </main>
@@ -61,23 +71,16 @@ const Main = ({data, onClick , setWarehouse}) => {
 
             {isModal &&
             <Modal
-                title={(isModal && 'Adding') || (isModal && 'Continue')}
-                buttonText={(isModal && 'Adding') || (isModal && 'Continue')}
-                buttonOnclick={
-                    () =>
-                        (isModal && setIsModal((e)=> validation(e) && 'Continue'))
-                        ||
-                        (isModal && setIsModal(''))}
+                title={isModal === 'Adding'  && 'Adding a warehouse' || (isModal === 'Continue' && 'Warehouse successfully added' )}
+                btnText={isModal}
+                btnOnClick={
+                    () => isModal === 'Continue' && setIsModal('')}
                 close={() => setIsModal('')}
                 src={isModal === 'Continue' && houseModal}
             >
-                {isModal === 'Adding' &&
-                <>
-                <Input label={'Name of the warehouse'} placeholder={'Enter a name'} name='add_warehouse'/>
-                <Input label={'Length, m'} placeholder={'Enter the length'} name='length'/>
-                <Input label={'Width, m'} placeholder={'Enter the width'} name='width'/>
-                <Input label={'Height, m'} placeholder={'Enter the height'} name='height'/>
-                </>
+                {
+                    // isModal === 'Adding' && <AddWarehouse setIsModal={setIsModal}/>
+                  isModal === 'Adding' && <AddProductStepOne/>
                 }
             </Modal>
         }
