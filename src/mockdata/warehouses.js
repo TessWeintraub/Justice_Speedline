@@ -39,7 +39,8 @@ export const users = [
                         two: 'YAG',
                         three: 'C88918',
                         four: 'S',
-                        five: 'Air'
+                        five: 'Air',
+                        payment: ''
                     },
                     {
                         id: 1,

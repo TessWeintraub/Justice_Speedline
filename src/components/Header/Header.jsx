@@ -4,7 +4,6 @@ import Search from "../../UI/Search/Search";
 import {profileIcon, settingIcon, notificationIcon} from "../../mockdata/icons";
 
 const Header = () => {
-
     return (
             <header className={classes.header}>
                 <Search/>

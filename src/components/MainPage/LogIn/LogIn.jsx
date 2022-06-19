@@ -1,26 +1,13 @@
-import React, {useEffect} from 'react';
-import {useState} from "react";
-import Input from "../../../UI/Input/Input";
-import {Patterns} from "../../../mockdata/validation";
+import React, {useState,useEffect} from 'react';
 import {useUserContext} from "../../../context/userContext";
 import Button from "../../../UI/Button/Button";
+import Input from "../../../UI/Input/Input";
+import {bindInputProps} from "../../../assets/utilits/utilits";
+import {logInInitStat} from "../../../assets/utilits/logIn";
 
 const LogIn = () => {
   const {users, setUserAuth} = useUserContext()
-  const [fields, setFields] = useState({
-    email: {
-      value: '',
-      errorMessage: 'Email заполнен не верно',
-      errorBoolean: false,
-      touched: false,
-    },
-    password: {
-      value: '',
-      errorMessage: 'Пароль заполнен не верно',
-      errorBoolean: false,
-      touched: false,
-    },
-  })
+  const [fields, setFields] = useState(logInInitStat)
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
@@ -30,35 +17,9 @@ const LogIn = () => {
     setDisabled(isValid)
   }, [fields])
 
-  const bindInputProps = (field) => {
-    return {
-      label: field,
-      type: field,
-      placeholder: `Enter a ${field}`,
-      onBlur: (e) => setFields({
-        ...fields,
-        [field]: {
-          ...fields[field],
-          touched: true,
-          errorBoolean: !Patterns[field].test(e.target.value),
-          errorMessage: `${field}  заполнен некорректно`,
-        }
-      }),
-      value: fields[field].value,
-      onChange: (e) => setFields({
-        ...fields,
-        [field]: {
-          ...fields[field],
-          value: e.target.value
-        }
-      }),
-      errorMessage: fields[field].errorBoolean && fields[field].errorMessage
-    }
-  }
 
   const authorization = () => {
     const searchUser = users.length ? users.filter((user) => user.email === fields.email.value && user.password === fields.password.value) : []
-
     if (!searchUser.length) {
       setFields({
         ...fields,
@@ -70,13 +31,12 @@ const LogIn = () => {
       })
       return
     }
-
     setUserAuth(...searchUser)
   }
   return (
     <>
-      <Input {...bindInputProps('email')} />
-      <Input {...bindInputProps('password')} />
+      <Input {...bindInputProps(fields,setFields,'email','Email')} />
+      <Input {...bindInputProps(fields,setFields,'password','Password')} />
       <Button text='Sign up' btnDisabled={disabled} onClick={() => authorization()}/>
     </>
   );

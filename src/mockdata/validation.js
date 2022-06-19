@@ -9,7 +9,9 @@ export const Patterns = {
   height: /^[ 0-9]+$/,
   number: /^[ 0-9]+$/,
   technology: /\D+$/,
-  manufacturer: /\D+$/
+  manufacturer: /\D+$/,
+  shipping:  /\D+$/,
+  payment: /\D+$/
 }
 
 

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {airIcon, boatIcon, checkedIcon, trackIcon} from "../../mockdata/icons";
 import classes from "./Radio.module.css";
 
-const Radio = ({text,icon,name,isCheck,setIsCheck}) => {
+const Radio = ({text,icon,name,isCheck,setIsCheck,value}) => {
 
     // const [isCheck,setIsCheck] = useState(<></>)
     // <Radio icon={airIcon} text='By air transport' name={'air'} id={'0'} isCheck={isCheck} setIsCheck={setIsCheck}/>
@@ -20,6 +20,7 @@ const Radio = ({text,icon,name,isCheck,setIsCheck}) => {
                         className={classes.label_input}
                         id={text}
                         name={name}
+                        value={value}
                         onClick={(e)=>setIsCheck(e.target)}/>
                 </span>
                 {isCheck.id === text && isCheck.checked && checkedIcon}

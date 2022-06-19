@@ -6,10 +6,12 @@ import classes from "./Warehouses.module.css";
 import {useUserContext} from "../../context/userContext";
 
 const Warehouses = () => {
-  const {userAuth,setUsersAuth} = useUserContext()
+  const {userAuth, setUsersAuth, activeWarehouse} = useUserContext()
   const [warehouse, setWarehouse] = useState(userAuth)
 
-  useEffect(()=>{setWarehouse(userAuth)},[userAuth])
+
+  // useEffect(()=>activeWarehouse ? setWarehouse(activeWarehouse) : setWarehouse(userAuth),[activeWarehouse])
+  useEffect(() => setWarehouse(userAuth), [userAuth])
 
   return (
     <section className={classes.warehouses}>

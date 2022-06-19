@@ -5,7 +5,7 @@ export const UserContext = createContext(null)
 
 export const UserProvider = ({children}) => {
   const localRequest = localStorage.getItem('USERS')
-  const localData = localRequest ? JSON.parse(localRequest) : []
+  const localData = localRequest ? JSON.parse(localRequest) : null
 
   const localAuthRequest = localStorage.getItem('USER_AUTH')
   const localAuthUser = localAuthRequest ? JSON.parse(localAuthRequest) : null
@@ -13,6 +13,8 @@ export const UserProvider = ({children}) => {
   const [isAuth, setIsAuth] = useState(false)
   const [users, setUsers] = useState(localData)
   const [userAuth, setUserAuth] = useState(localAuthUser)
+  const [newProduct, setNewProduct] = useState(null)
+  const [activeWarehouse, setActiveWarehouse] = useState(null)
 
 
   useEffect(() => {
@@ -23,6 +25,7 @@ export const UserProvider = ({children}) => {
   }, [userAuth])
 
   useEffect(() => {
+    if (!users) return
     localStorage.setItem('USERS', JSON.stringify(users))
   }, [users])
 
@@ -35,6 +38,10 @@ export const UserProvider = ({children}) => {
       setUserAuth,
       isAuth,
       setIsAuth,
+      activeWarehouse,
+      setActiveWarehouse,
+      newProduct,
+      setNewProduct
     }}>
       {children}
     </UserContext.Provider>
