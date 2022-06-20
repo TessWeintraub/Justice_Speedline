@@ -1,45 +1,48 @@
 import React, {useEffect, useState} from 'react';
+import {useUserContext} from "../../context/userContext";
 import Button from "../../UI/Button/Button";
 import Select from "../../UI/Select/Select";
 import Checkbox from "../../UI/Checkbox/Checkbox";
 import Product from "../../UI/Product/Product";
 import Modal from "../../UI/Modal/Modal";
 import AddWarehouse from "../AddWarehouse/AddWarehouse";
-import classes from "./Main.module.css";
 import AddProductStepOne from "../AddProduct/AddProductStepOne";
-import {useUserContext} from "../../context/userContext";
-import houseModal from "../../assets/svg/houseModal.svg";
-import waybill from "../../assets/svg/waybill.svg"
 import AddProductStepTwo from "../AddProduct/addProductStepTwo";
 import AddProductStepThree from "../AddProduct/AddProductStepThree";
+import Footer from "../../UI/Footer/Footer";
+import classes from "./Main.module.css";
+import houseModal from "../../assets/svg/houseModal.svg";
+import waybill from "../../assets/svg/waybill.svg";
+import warehouses from "../Warehouses/Warehouses";
 
 
 const Main = ({data, setWarehouse}) => {
+  const {userAuth, setUserAuth,setProductsCheck,productsCheck,activeWarehouse} = useUserContext()
   const [stepModal, setStepModal] = useState(0)
-  const [products, setProducts] = useState([])
-  const {userAuth, setUserAuth, setActiveWarehouse} = useUserContext()
+  const key = data.warehouses && 'warehouses' || data.products && 'products'
 
-
-  const allChecked = data.warehouses.every(({checked}) => checked)
+  const allChecked = data[key].every(({checked}) => checked)
 
   const checkAll = (element) => {
-    data.warehouses && setUserAuth(userAuth => {
+    console.log(data[key])
+    data[key].length && setWarehouse(data => {
       return {
-        ...userAuth,
-        warehouses: userAuth.warehouses.map(item => ({...item, checked: !allChecked,}))
+        ...data,
+        [key]: data[key].map(item => ({...item, checked: !allChecked,}))
       }
     })
-    element.checked ? setProducts(data.warehouses) : setProducts([])
+    element.checked ? setProductsCheck(data[key]) : setProductsCheck([])
   }
   const checkCur = (element, dataProduct, id) => {
-    setUserAuth(userAuth => {
+    console.log(data[key])
+    setWarehouse(data => {
       return {
-        ...userAuth,
-        warehouses: userAuth.warehouses.map((item) => item.id === id ? {...item, checked: !item.checked} : item)
+        ...data,
+        [key]: data[key].map((item) => item.id === id ? {...item, checked: !item.checked} : item)
       }
     })
-    const deleteProduct = products.filter(product => product.id !== id)
-    element.checked ? setProducts([...products, dataProduct]) : setProducts(deleteProduct)
+    const deleteProduct = productsCheck.filter(product => product.id !== id)
+    element.checked ? setProductsCheck([...productsCheck, dataProduct]) : setProductsCheck(deleteProduct)
   }
 
   const dataStepModal = {
@@ -95,25 +98,54 @@ const Main = ({data, setWarehouse}) => {
   }
 
 
+  const deleteProd = () =>{
+    const deleteProduct = data[key].filter(element=>{
+      return !productsCheck.some(elementDel=>{
+        return element.id === elementDel.id;
+      });
+    })
+    key === 'warehouses' && setUserAuth( userAuth => {
+      return {
+        ...userAuth,
+        [key]: deleteProduct
+      }})
+    
+    key === 'products' && setUserAuth( userAuth => {
+        return {
+          ...userAuth,
+          warehouses:
+            userAuth.warehouses.map(warehouse=> warehouse.id === activeWarehouse.id
+            ?
+            {...warehouse, products: deleteProduct}
+            :
+            warehouse
+          )
+        }
+      }
+    )
+    setWarehouse({...data,[key]: deleteProduct})
+    setProductsCheck([])
+  }
+
   return (
     <>
-      <main className={classes.main}>
+      <main className={classes.main} >
         <section className={classes.main_title}>
           <h1 className={classes.main_title_h1}>{data.characteristic.title}</h1>
           <div className={classes.main_title_content}>
             <Select/>
             <Button
               text={data.characteristic.button_text}
-              onClick={() => data.warehouses && setStepModal(3) || data.products && setStepModal(3)}
+              onClick={() => data.warehouses && setStepModal(1) || data.products && setStepModal(3)}
               fontSize={'0.75rem'}
             />
           </div>
         </section>
         <section className={classes.main_content}>
           <div className={classes.main_content_title}>
-            <div className={classes.main_content_title_products}>
+            <div className={classes.main_content_title_products} >
               <Checkbox
-                onClickCheckbox={checkAll}
+                onChangeCheckbox={checkAll}
                 isChecked={allChecked}
                 idCheckbox={'all'}
               />
@@ -132,33 +164,28 @@ const Main = ({data, setWarehouse}) => {
               <p>{data.characteristic.five}</p>
             </div>
           </div>
-          <div className={classes.main_content_products}>
-            {data.warehouses && data.warehouses.map((element, idx) =>
+          <div className={classes.main_content_products} style={{ maxHeight : productsCheck.length!==0 ? 'calc(100vh - 422px)' : '100%'}}>
+            {data[key].map((element) =>
               <Product
+                key={`${element.id}_${key}`}
                 data={element}
-                onClickCheckbox={checkCur}
-                isChecked={element.checked}
-                idCheckbox={element.id}
-              />)}
-            {data.products && data.products.map(element =>
-              <Product
-                data={element}
-                onClickCheckbox={checkCur}
+                onChangeCheckbox={checkCur}
                 isChecked={element.checked}
                 idCheckbox={element.id}
               />)}
           </div>
         </section>
+        {productsCheck.length !== 0 && <Footer products={productsCheck} onClickDel={()=>deleteProd()} onClickMove={key==='products' && (()=>setStepModal(7))}/>}
       </main>
 
 
-      {stepModal
+      {stepModal !== 0
         &&
         <Modal {...dataStepModal[stepModal]}>
-          {stepModal === 1 && <AddWarehouse setStepModal={setStepModal}/>}
+          {stepModal === 1 && <AddWarehouse setStepModal={setStepModal} setWarehouse={setWarehouse} warehouse={data}/>}
           {stepModal === 3 && <AddProductStepOne setStepModal={setStepModal}/>}
           {stepModal === 4 && <AddProductStepTwo setStepModal={setStepModal}/>}
-          {stepModal === 5 && <AddProductStepThree setStepModal={setStepModal}/>}
+          {stepModal === 5 && <AddProductStepThree setStepModal={setStepModal} setWarehouse={setWarehouse} warehouse={data}/>}
           {/*{stepModal === 7 && <AddWarehouse setStepModal={setStepModal}/>}*/}
           {/*{stepModal === 8 && <AddProductStepOne/>}*/}
           {/*{stepModal === 9 && <AddWarehouse setStepModal={setStepModal}/>}*/}

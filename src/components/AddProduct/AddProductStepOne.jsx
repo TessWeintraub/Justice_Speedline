@@ -1,31 +1,29 @@
-import React, {useEffect} from 'react';
-import {useState} from "react";
+import React, {useState, useEffect} from 'react';
 import Input from "../../UI/Input/Input";
 import PurchasingTechnology from "../../UI/PurchasingTechnology/PurchasingTechnology";
 import Button from "../../UI/Button/Button";
+import {bindInputProps} from "../../assets/utilits/utilits";
+import {useUserContext} from "../../context/userContext";
 import {Patterns} from "../../mockdata/validation";
 import {addProductStepOneInitVal, sampleNewProduct} from "../../assets/utilits/addProduct";
-import {bindInputProps} from "../../assets/utilits/utilits";
 import {stepOne} from "../../mockdata/icons";
-import {useUserContext} from "../../context/userContext";
 
 const AddProductStepOne = ({setStepModal}) => {
-  const [isCheck,setIsCheck] = useState(<></>)
+  const [isCheck, setIsCheck] = useState(<></>)
   const [fields, setFields] = useState(addProductStepOneInitVal)
   const [disabled, setDisabled] = useState(true);
-  const {setNewProduct,activeWarehouse} = useUserContext()
-
+  const {setNewProduct, activeWarehouse} = useUserContext()
 
 
   useEffect(() => {
-    const {name, manufacturer, number ,technology} = fields;
+    const {name, manufacturer, number, technology} = fields;
     if (!name.touched && !manufacturer.touched && !number.touched && !technology.touched) return
     const isValid = !(!name.errorBoolean && !manufacturer.errorBoolean && name.value && manufacturer.value && !number.errorBoolean && !technology.errorBoolean && number.value && technology.value)
     setDisabled(isValid)
   }, [fields])
 
 
-  useEffect(()=>{
+  useEffect(() => {
     isCheck.value && setFields({
       ...fields,
       technology: {
@@ -35,15 +33,15 @@ const AddProductStepOne = ({setStepModal}) => {
         value: isCheck.value
       }
     })
-  },[isCheck])
+  }, [isCheck])
 
 
   const funcArg = {
-    productName : [ fields, setFields, 'name','Product name'],
-    manufacturer : [ fields, setFields, 'manufacturer','Manufacturer'],
-    itemNumber : [ fields, setFields, 'number','Item number','number'],
+    productName: [fields, setFields, 'name', 'Product name'],
+    manufacturer: [fields, setFields, 'manufacturer', 'Manufacturer'],
+    itemNumber: [fields, setFields, 'number', 'Item number', 'number'],
     technology: {
-      setIsCheck: (e)=> setIsCheck(e.target),
+      setIsCheck: (e) => setIsCheck(e.target),
       isCheck: isCheck
     }
   }
@@ -51,7 +49,6 @@ const AddProductStepOne = ({setStepModal}) => {
   const newProductStepOne = () => {
     setNewProduct({
       ...sampleNewProduct,
-      id: activeWarehouse.products.length ? activeWarehouse.products.last().id + 1 : 1,
       one: fields.name.value,
       two: fields.manufacturer.value,
       three: fields.number.value,
@@ -59,8 +56,6 @@ const AddProductStepOne = ({setStepModal}) => {
     })
     setStepModal(4)
   }
-  useEffect(()=>{
-    console.log(activeWarehouse)},[activeWarehouse])
 
   return (
     <>
@@ -71,7 +66,7 @@ const AddProductStepOne = ({setStepModal}) => {
       <PurchasingTechnology {...funcArg.technology}/>
       <Button text='Next step' btnDisabled={disabled} onClick={() => newProductStepOne()}/>
     </>
-  );
-};;
+  )
+}
 
 export default AddProductStepOne;

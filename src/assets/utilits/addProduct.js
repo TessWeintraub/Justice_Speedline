@@ -47,5 +47,6 @@ export const sampleNewProduct = {
   three: '',
   four: '',
   five: '',
-  payment: ''
+  payment: '',
+  checked: false
 }

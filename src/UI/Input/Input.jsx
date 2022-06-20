@@ -8,7 +8,8 @@ const Input = ({
                  onBlur,
                  errorMessage,
                  name,
-                type
+                 type,
+                 readOnly
                }
 ) => {
 
@@ -23,6 +24,7 @@ const Input = ({
         placeholder={placeholder}
         name={name ? name : label.toLowerCase()}
         type={type ? type : 'text'}
+        readOnly={readOnly && readOnly}
         data-input
       />
       {errorMessage && <p className={classes.errorMessage}>{errorMessage}</p>}

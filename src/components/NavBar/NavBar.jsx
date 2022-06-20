@@ -3,9 +3,16 @@ import Button from "../../UI/Button/Button";
 import {homeIcon,userIcon,documentIcon,categoryIcon,chatIcon,chartIcon} from "../../mockdata/icons";
 import classes from "./NavBar.module.css";
 import logo from '../../assets/svg/logo.svg'
+import {useUserContext} from "../../context/userContext";
 
 
-const NavBar = ({onClick}) => {
+const NavBar = ({setWarehouse}) => {
+    const {setProductsCheck,userAuth} = useUserContext()
+    const click = () => {
+        setProductsCheck([])
+        setWarehouse(userAuth)
+
+    }
     return (
         <nav className={classes.navBar}>
             <img src={logo} alt='logo' className={classes.navBar_logo}/>
@@ -16,7 +23,7 @@ const NavBar = ({onClick}) => {
                     </Button>
                 </li>
                 <li>
-                    <Button text='Warehouses' color='#3E4C59B2' background={'transparent'} onClick={onClick}>
+                    <Button text='Warehouses' color='#3E4C59B2' background={'transparent'} onClick={()=>click()}>
                         {documentIcon}
                     </Button>
                 </li>

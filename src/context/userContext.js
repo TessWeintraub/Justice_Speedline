@@ -1,11 +1,10 @@
-import {useEffect, useState} from "react";
-import {createContext, useContext} from "react";
+import {useEffect, useState, createContext, useContext} from "react";
 
 export const UserContext = createContext(null)
 
 export const UserProvider = ({children}) => {
   const localRequest = localStorage.getItem('USERS')
-  const localData = localRequest ? JSON.parse(localRequest) : null
+  const localData = localRequest ? JSON.parse(localRequest) : []
 
   const localAuthRequest = localStorage.getItem('USER_AUTH')
   const localAuthUser = localAuthRequest ? JSON.parse(localAuthRequest) : null
@@ -15,6 +14,7 @@ export const UserProvider = ({children}) => {
   const [userAuth, setUserAuth] = useState(localAuthUser)
   const [newProduct, setNewProduct] = useState(null)
   const [activeWarehouse, setActiveWarehouse] = useState(null)
+  const [productsCheck, setProductsCheck] = useState([])
 
 
   useEffect(() => {
@@ -28,6 +28,9 @@ export const UserProvider = ({children}) => {
     if (!users) return
     localStorage.setItem('USERS', JSON.stringify(users))
   }, [users])
+  useEffect(() => {
+    console.log('===>newProduct', newProduct)
+  }, [newProduct])
 
 
   return (
@@ -41,7 +44,9 @@ export const UserProvider = ({children}) => {
       activeWarehouse,
       setActiveWarehouse,
       newProduct,
-      setNewProduct
+      setNewProduct,
+      productsCheck,
+      setProductsCheck
     }}>
       {children}
     </UserContext.Provider>

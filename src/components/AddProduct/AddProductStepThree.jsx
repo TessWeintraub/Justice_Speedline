@@ -7,7 +7,7 @@ import {Patterns} from "../../mockdata/validation";
 import {addProductStepThreeInitVal} from "../../assets/utilits/addProduct";
 import {cardIcon, moneyIcon, paypalIcon, stepThree} from "../../mockdata/icons";
 
-const AddProductStepThree = ({setStepModal}) => {
+const AddProductStepThree = ({setStepModal, setWarehouse ,warehouse}) => {
   const [isCheck, setIsCheck] = useState(<></>)
   const [fields, setFields] = useState(addProductStepThreeInitVal)
   const [disabled, setDisabled] = useState(true);
@@ -35,11 +35,13 @@ const AddProductStepThree = ({setStepModal}) => {
   }, [isCheck])
 
 
+
   const newProductStepThree = () => {
-    setNewProduct({
-      ...newProduct,
-      payment: fields.payment.value
-    })
+  const product = {
+            ...newProduct,
+            id: warehouse.products.length > 0 ? warehouse.products.last().id + 1 : 1,
+            payment: fields.payment.value
+    }
 
     setUserAuth({
         ...userAuth,
@@ -49,14 +51,15 @@ const AddProductStepThree = ({setStepModal}) => {
               ?
               {
                 ...warehouse,
-                products: [...warehouse.products, newProduct]
+                products: [...warehouse.products, product]
               }
               :
               warehouse)
       }
     )
-    setNewProduct(null)
+    setWarehouse({...warehouse, products: [...warehouse.products, product]})
     setStepModal(6)
+    setNewProduct({})
   }
 
   return (

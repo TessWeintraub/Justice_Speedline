@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from "./Button.module.css";
+import {reverse} from "../../mockdata/icons";
 
 const Button = (
   {
@@ -8,10 +9,9 @@ const Button = (
     padding,
     fontSize,
     color,
-    background,
     fontWeight,
     children,
-    btnDisabled
+    btnDisabled,
   }
 ) => {
 const styleProps ={
@@ -20,8 +20,9 @@ const styleProps ={
     fontSize: fontSize,
     color: color,
     padding: children ? '0 0' : padding,
-    background: background,
-    fontWeight: fontWeight
+    background: color && 'transparent',
+    fontWeight: fontWeight,
+    border: color==='#E55232' ? '1px solid #E55232' : 0
 }
 
 
@@ -34,6 +35,7 @@ const styleProps ={
     >
       {children && children}
       {text}
+      {text==='Move' && reverse}
     </button>
   );
 };

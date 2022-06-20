@@ -7,19 +7,20 @@ const Product = ({
                 isChecked,
                 data,
                 idCheckbox,
-                onClickCheckbox,
+                onChangeCheckbox,
                  }) => {
-  const {setActiveWarehouse} = useUserContext()
+  const {setActiveWarehouse,setProductsCheck} = useUserContext()
 
   const click = (element) => {
     if (!(element.type !== 'checkbox' && element.tagName !== 'LABEL' && element.tagName !== 'input')) return
     data.products && setActiveWarehouse(data)
+    data.products && setProductsCheck([])
   }
 
     return (
-        <div className={classes.product} key={data.id} onClick={(e)=>{click(e.target)}}>
+        <div className={classes.product}  onClick={(e)=>{click(e.target)}}>
             <div className={classes.product_name}>
-                <Checkbox onClickCheckbox={onClickCheckbox} isChecked={isChecked} idCheckbox={idCheckbox} data={data}/>
+                <Checkbox onChangeCheckbox={onChangeCheckbox} isChecked={isChecked} idCheckbox={idCheckbox} data={data}/>
                 <p>{data.one}</p>
             </div>
               <div className={classes.product_parameter}>

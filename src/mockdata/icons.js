@@ -21,6 +21,8 @@ import {ReactComponent as StepOne} from "../assets/svg/stepOne.svg";
 import {ReactComponent as StepTwo} from "../assets/svg/stepTwo.svg";
 import {ReactComponent as StepThree} from "../assets/svg/stepThree.svg";
 import {ReactComponent as Waybill} from "../assets/svg/waybill.svg";
+import {ReactComponent as SelectCount} from "../assets/svg/selectCount.svg";
+import {ReactComponent as Reverse} from "../assets/svg/reverse.svg";
 
 
 export const homeIcon = <HomeIcon/>
@@ -46,4 +48,6 @@ export const stepOne = <StepOne/>
 export const stepTwo = <StepTwo/>
 export const stepThree = <StepThree/>
 export const waybill = <Waybill/>
+export const selectCount = <SelectCount/>
+export const reverse = <Reverse/>
 

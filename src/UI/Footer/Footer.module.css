@@ -1,0 +1,26 @@
+.footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    width: 100vw;
+    max-height: 92px;
+    box-shadow: 0 -1px 15px rgba(62, 76, 89, 0.04);
+}
+.footer_p{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+}
+.footer_container{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}

@@ -5,7 +5,7 @@ import Button from "../../UI/Button/Button";
 import {bindInputProps} from "../../assets/utilits/utilits"
 import {addWarehousesInitStat, sampleNewWarehouse} from "../../assets/utilits/addWarehouse";
 
-const AddWarehouse = ({setStepModal}) => {
+const AddWarehouse = ({setStepModal,setWarehouse,warehouse}) => {
   const {userAuth, setUserAuth} = useUserContext()
   const [fields, setFields] = useState(addWarehousesInitStat)
   const [disabled, setDisabled] = useState(true);
@@ -29,7 +29,7 @@ const AddWarehouse = ({setStepModal}) => {
 
     const newWarehouse = {
       ...sampleNewWarehouse,
-      id: userAuth.warehouses.length ? userAuth.warehouses.last().id + 1 : 1,
+      id: userAuth.warehouses.length > 0 ? userAuth.warehouses.last().id + 1 : 1,
       one: fields.name.value,
       three: fields.length.value,
       four: fields.width.value,
@@ -43,6 +43,7 @@ const AddWarehouse = ({setStepModal}) => {
       ...userAuth,
       warehouses: [...userAuth.warehouses,newWarehouse]
     })
+    setWarehouse({...warehouse,warehouses: [...warehouse.warehouses,newWarehouse]})
     setStepModal(2)
   }
 
