@@ -21,6 +21,7 @@ const SignUp = ({setModal}) => {
 
 
   const registration = () => {
+    console.log(users)
     const searchUser = users.length ? users.filter((user) => user.email === fields.email.value) : []
     if (searchUser.length) { // Если пользователь был найден в базе
       setFields({

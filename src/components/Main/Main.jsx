@@ -14,6 +14,9 @@ import classes from "./Main.module.css";
 import houseModal from "../../assets/svg/houseModal.svg";
 import waybill from "../../assets/svg/waybill.svg";
 import warehouses from "../Warehouses/Warehouses";
+import MoveStepOne from "../Move/MoveStepOne";
+import MoveStepTwo from "../Move/MoveStepTwo";
+import MoveStepThree from "../Move/MoveStepThree";
 
 
 const Main = ({data, setWarehouse}) => {
@@ -116,7 +119,9 @@ const Main = ({data, setWarehouse}) => {
           warehouses:
             userAuth.warehouses.map(warehouse=> warehouse.id === activeWarehouse.id
             ?
-            {...warehouse, products: deleteProduct}
+            {...warehouse,
+              two: deleteProduct.length,
+              products: deleteProduct}
             :
             warehouse
           )
@@ -186,9 +191,9 @@ const Main = ({data, setWarehouse}) => {
           {stepModal === 3 && <AddProductStepOne setStepModal={setStepModal}/>}
           {stepModal === 4 && <AddProductStepTwo setStepModal={setStepModal}/>}
           {stepModal === 5 && <AddProductStepThree setStepModal={setStepModal} setWarehouse={setWarehouse} warehouse={data}/>}
-          {/*{stepModal === 7 && <AddWarehouse setStepModal={setStepModal}/>}*/}
-          {/*{stepModal === 8 && <AddProductStepOne/>}*/}
-          {/*{stepModal === 9 && <AddWarehouse setStepModal={setStepModal}/>}*/}
+          {stepModal === 7 && <MoveStepOne setStepModal={setStepModal}/>}
+          {stepModal === 8 && <MoveStepTwo setStepModal={setStepModal}/>}
+          {stepModal === 9 && <MoveStepThree setStepModal={setStepModal} setWarehouse={setWarehouse} warehouse={data}/>}
         </Modal>
       }
     </>

@@ -1,57 +1,75 @@
-// import React, {useEffect} from 'react';
-// import {useState} from "react";
-// import Input from "../../UI/Input/Input";
-// import PurchasingTechnology from "../../UI/PurchasingTechnology/PurchasingTechnology";
-// import Button from "../../UI/Button/Button";
-// import {Patterns} from "../../mockdata/validation";
-// import {addProductStepOneInitVal, sampleNewProduct} from "../../assets/utilits/addProduct";
-// import {bindInputProps} from "../../assets/utilits/utilits";
-// import {stepOne} from "../../mockdata/icons";
-// import {useUserContext} from "../../context/userContext";
-// import Select from "../../UI/Select/Select";
-//
-// const AddProductStepOne = ({setStepModal}) => {
-//   const [isCheck,setIsCheck] = useState(<></>)
-//   const [fields, setFields] = useState(addProductStepOneInitVal)
-//   const [disabled, setDisabled] = useState(true);
-//   const {setNewProduct,activeWarehouse} = useUserContext()
-//
-//
-//
-//   useEffect(() => {
-//     const {name, manufacturer, number ,technology} = fields;
-//     if (!name.touched && !manufacturer.touched && !number.touched && !technology.touched) return
-//     const isValid = !(!name.errorBoolean && !manufacturer.errorBoolean && name.value && manufacturer.value && !number.errorBoolean && !technology.errorBoolean && number.value && technology.value)
-//     setDisabled(isValid)
-//   }, [fields])
-//
-//
-//   useEffect(()=>{
-//     isCheck.value && setFields({
-//       ...fields,
-//       technology: {
-//         ...fields.technology,
-//         touched: true,
-//         errorBoolean: !Patterns.technology.test(isCheck.value),
-//         value: isCheck.value
-//       }
-//     })
-//   },[isCheck])
-//
-//
-//
-//
-//   useEffect(()=>{
-//     console.log(activeWarehouse)},[activeWarehouse])
-//
-//   return (
-//     <>
-//       {stepOne}
-//       <Input {...bindInputProps(...funcArg.itemNumber)} />
-//       <Select />
-//       <Button text='Next step' btnDisabled={disabled} onClick={() => newProductStepOne()}/>
-//     </>
-//   )
-// }
-//
-// export default AddProductStepOne;
+import React, {useEffect} from 'react';
+import {useState} from "react";
+import {useUserContext} from "../../context/userContext";
+import Input from "../../UI/Input/Input";
+import Button from "../../UI/Button/Button";
+import Select from "../../UI/Select/Select";
+import {reverseModal, stepOne} from "../../mockdata/icons";
+import {moveStepOneInitVal, sampleMove} from "../../assets/utilits/Move";
+import {bindInputProps} from "../../assets/utilits/utilits";
+import classes from "./Move.module.css";
+import {Patterns} from "../../mockdata/validation";
+
+const MoveStepOne = ({setStepModal,products}) => {
+  const [fields, setFields] = useState(moveStepOneInitVal)
+  const [disabled, setDisabled] = useState(true);
+  const {setNewProduct,activeWarehouse,userAuth,setMove,productsCheck} = useUserContext()
+
+
+
+  useEffect(() => {
+    const {inWh} = fields;
+    if (!inWh.touched) return
+    const isValid = !(!inWh.errorBoolean && inWh.value)
+    setDisabled(isValid)
+  }, [fields])
+
+
+  const funcArg = {
+    in: [fields, setFields, 'inWh', 'In'],
+  }
+
+
+ const bindInputProps = (state, setState ,key , label, type) => {
+    return {
+      label: label,
+      placeholder: `Enter a ${key}`,
+      value: state[key].value,
+      onChange: (e) => setState({
+        ...state,
+        [key]: {
+          ...state[key],
+          value: e.target.value,
+          touched: true,
+          errorBoolean: !Patterns[key].test(e.target.value),
+        }
+      }),
+      errorMessage: state[key].errorBoolean && state[key].errorMessage
+    }
+  }
+
+  const moveStepOne = () =>{
+    setMove({
+      ...sampleMove,
+      from: activeWarehouse.id,
+      inWh: Number(fields.inWh.value),
+      products:  productsCheck
+    })
+    setStepModal(8)
+  }
+
+
+  return (
+    <>
+      {stepOne}
+      <Input label='From' defaultValue={activeWarehouse.one} readOnly={true}/>
+      <div className={classes.reverse}>
+        {reverseModal}
+      </div>
+      <Select warehouses={userAuth.warehouses.filter(warehouse => warehouse.id !== activeWarehouse.id)} {...bindInputProps(...funcArg.in)}/>
+      <Button text='Next step' btnDisabled={disabled} onClick={() => moveStepOne()}/>
+    </>
+  )
+}
+
+export default MoveStepOne;

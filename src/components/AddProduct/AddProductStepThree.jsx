@@ -42,7 +42,6 @@ const AddProductStepThree = ({setStepModal, setWarehouse ,warehouse}) => {
             id: warehouse.products.length > 0 ? warehouse.products.last().id + 1 : 1,
             payment: fields.payment.value
     }
-
     setUserAuth({
         ...userAuth,
         warehouses:
@@ -51,6 +50,7 @@ const AddProductStepThree = ({setStepModal, setWarehouse ,warehouse}) => {
               ?
               {
                 ...warehouse,
+                two: warehouse.products.length + 1,
                 products: [...warehouse.products, product]
               }
               :

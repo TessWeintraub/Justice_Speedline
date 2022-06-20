@@ -11,7 +11,9 @@ export const Patterns = {
   technology: /\D+$/,
   manufacturer: /\D+$/,
   shipping:  /\D+$/,
-  payment: /\D+$/
+  payment: /\D+$/,
+  from: /\D+$/,
+  inWh: /^[ 0-9]+$/
 }
 
 

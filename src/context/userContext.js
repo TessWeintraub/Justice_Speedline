@@ -14,6 +14,7 @@ export const UserProvider = ({children}) => {
   const [userAuth, setUserAuth] = useState(localAuthUser)
   const [newProduct, setNewProduct] = useState(null)
   const [activeWarehouse, setActiveWarehouse] = useState(null)
+  const [move, setMove] = useState(null)
   const [productsCheck, setProductsCheck] = useState([])
 
 
@@ -28,9 +29,7 @@ export const UserProvider = ({children}) => {
     if (!users) return
     localStorage.setItem('USERS', JSON.stringify(users))
   }, [users])
-  useEffect(() => {
-    console.log('===>newProduct', newProduct)
-  }, [newProduct])
+useEffect(()=>{console.log('move',move)},[move])
 
 
   return (
@@ -46,7 +45,9 @@ export const UserProvider = ({children}) => {
       newProduct,
       setNewProduct,
       productsCheck,
-      setProductsCheck
+      setProductsCheck,
+      move,
+      setMove
     }}>
       {children}
     </UserContext.Provider>

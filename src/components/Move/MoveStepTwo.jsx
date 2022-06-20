@@ -2,16 +2,16 @@ import React, {useState,useEffect} from 'react';
 import {useUserContext} from "../../context/userContext";
 import Button from "../../UI/Button/Button";
 import Radio from "../../UI/Radio/Radio";
-import classes from "./addProductStepTwo.module.css"
+import classes from "../AddProduct/addProductStepTwo.module.css"
 import {Patterns} from "../../mockdata/validation";
-import {addProductStepTwoInitVal} from "../../assets/utilits/addProduct";
 import {airIcon, boatIcon, stepTwo, trackIcon} from "../../mockdata/icons";
+import {moveStepTwoInitVal} from "../../assets/utilits/Move";
 
-const AddProductStepTwo = ({setStepModal}) => {
+const MoveStepTwo = ({setStepModal}) => {
   const [isCheck,setIsCheck] = useState(<></>)
-  const [fields, setFields] = useState(addProductStepTwoInitVal)
+  const [fields, setFields] = useState(moveStepTwoInitVal)
   const [disabled, setDisabled] = useState(true);
-  const {newProduct, setNewProduct} = useUserContext()
+  const {move, setMove} = useUserContext()
 
 
 
@@ -36,14 +36,14 @@ const AddProductStepTwo = ({setStepModal}) => {
   },[isCheck])
 
 
-  const newProductStepTwo = () => {
-    setNewProduct({
-      ...newProduct,
-      five: fields.shipping.value
-    })
-    setStepModal(5)
-  }
+  const moveStepTwo = () => {
+    setMove( move => {return{
+      ...move,
+      shipping: fields.shipping.value
+    }})
 
+    setStepModal(9)
+  }
   return (
     <>
       {stepTwo}
@@ -53,9 +53,9 @@ const AddProductStepTwo = ({setStepModal}) => {
         <Radio icon={boatIcon} text='By sea' name={'air'} id={'1'} isCheck={isCheck} setIsCheck={setIsCheck} value={'SEA'}/>
         <Radio icon={trackIcon} text='By car' name={'air'} id={'2'} isCheck={isCheck} setIsCheck={setIsCheck} value={'TRUCK'}/>
       </div>
-      <Button text='Next step' btnDisabled={disabled} onClick={() => newProductStepTwo()}/>
+      <Button text='Next step' btnDisabled={disabled} onClick={() => moveStepTwo()}/>
     </>
   );
-};;
+};
 
-export default AddProductStepTwo;
+export default MoveStepTwo;

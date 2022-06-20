@@ -11,9 +11,10 @@
     height: 44px;
     max-height: 44px;
 }
-.select input{
+.select select{
     outline: none;
     border: 0;
+    outline: none;
     color: #3E4C59D9;
     width: 100%;
 }

@@ -9,7 +9,8 @@ const Input = ({
                  errorMessage,
                  name,
                  type,
-                 readOnly
+                 readOnly,
+                 defaultValue
                }
 ) => {
 
@@ -18,13 +19,14 @@ const Input = ({
     <label className={classes.label}>
       {label}
       <input
-        onChange={onChange}
-        onBlur={onBlur}
+        onChange={onChange && onChange}
+        onBlur={onBlur && onBlur}
         className={classes.input}
-        placeholder={placeholder}
+        placeholder={placeholder && placeholder}
         name={name ? name : label.toLowerCase()}
         type={type ? type : 'text'}
         readOnly={readOnly && readOnly}
+        defaultValue={defaultValue && defaultValue}
         data-input
       />
       {errorMessage && <p className={classes.errorMessage}>{errorMessage}</p>}
