@@ -24,6 +24,9 @@ import {ReactComponent as Waybill} from "../assets/svg/waybill.svg";
 import {ReactComponent as SelectCount} from "../assets/svg/selectCount.svg";
 import {ReactComponent as Reverse} from "../assets/svg/reverse.svg";
 import {ReactComponent as ReverseModal} from "../assets/svg/reverseModal.svg";
+import {ReactComponent as AirProduct} from "../assets/svg/airProduct.svg";
+import {ReactComponent as SeaProduct} from "../assets/svg/seaProduct.svg";
+import {ReactComponent as TruckProduct} from "../assets/svg/truckProduct.svg";
 
 
 export const homeIcon = <HomeIcon/>
@@ -52,4 +55,7 @@ export const waybill = <Waybill/>
 export const selectCount = <SelectCount/>
 export const reverse = <Reverse/>
 export const reverseModal = <ReverseModal/>
+export const airProduct = <AirProduct/>
+export const seaProduct = <SeaProduct/>
+export const truckProduct = <TruckProduct/>
 

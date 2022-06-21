@@ -1,4 +1,4 @@
-import {Patterns} from "../../mockdata/validation";
+import {Patterns} from "../../mockdata/Patterns";
 
 export  const bindInputProps = (state, setState ,key , label, type) => {
   return {
@@ -18,7 +18,8 @@ export  const bindInputProps = (state, setState ,key , label, type) => {
       ...state,
       [key]: {
         ...state[key],
-        value: e.target.value
+        value: e.target.value,
+        errorBoolean: !Patterns[key].test(e.target.value),
       }
     }),
     errorMessage: state[key].errorBoolean && state[key].errorMessage

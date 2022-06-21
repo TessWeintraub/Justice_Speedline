@@ -1,3 +1,5 @@
+import {warehouses} from "../../mockdata/warehouses";
+
 export const signUpInitStat = {
   email: {
     value: '',
@@ -25,5 +27,5 @@ export const sampleNewUser = {
     four: 'Width, m',
     five: 'Height, m'
   },
-  warehouses: []
+  warehouses: warehouses
 }

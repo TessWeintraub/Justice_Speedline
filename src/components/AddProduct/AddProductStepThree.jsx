@@ -3,7 +3,7 @@ import {useUserContext} from "../../context/userContext";
 import Button from "../../UI/Button/Button";
 import Radio from "../../UI/Radio/Radio";
 import classes from "./AddProductStepThree.module.css"
-import {Patterns} from "../../mockdata/validation";
+import {Patterns} from "../../mockdata/Patterns";
 import {addProductStepThreeInitVal} from "../../assets/utilits/addProduct";
 import {cardIcon, moneyIcon, paypalIcon, stepThree} from "../../mockdata/icons";
 

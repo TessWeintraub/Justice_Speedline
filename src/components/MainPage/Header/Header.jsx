@@ -7,8 +7,12 @@ const Header = ({children,logIn,signUp}) => {
     return (
         <header className={classes.header}>
             <div>
+              <div>
                 {logoIcon}
+              </div>
+              <div>
                 {children}
+              </div>
             </div>
             <div>
                 <Button text={'Log in'} onClick={logIn} padding={'1rem 2.0675rem'} color={'#EE950F'} background={'transparent'}/>

@@ -1,15 +1,16 @@
 import './App.css';
-import MainPage from "./components/MainPage/MainPage";
-import Warehouses from "./components/Warehouses/Warehouses";
+import AppRouter from "./UI/AppRouter/AppRouter";
+import {BrowserRouter} from "react-router-dom";
 import {UserProvider} from './context/userContext';
 
 function App() {
   return (
       <UserProvider>
+        <BrowserRouter>
           <div className="App">
-              {/*<MainPage/>*/}
-              <Warehouses />
+            <AppRouter/>
           </div>
+        </BrowserRouter>
       </UserProvider>
   );
 }

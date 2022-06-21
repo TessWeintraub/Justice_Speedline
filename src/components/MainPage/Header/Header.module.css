@@ -9,7 +9,21 @@
 .header div{
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+}
+.header div svg{
+    margin-right: 120px;
 }
 .header div img{
     padding-right: 15%;
+}
+@media (max-width: 1366px) {
+    .header div svg{
+        margin-right: 0
+    }
+    .header,
+    .header div {
+        gap: 0.75rem;
+        justify-content: center;
+    }
 }

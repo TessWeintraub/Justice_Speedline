@@ -21,6 +21,10 @@
     line-height: 12px;
     color: #3E4C59;
 }
+.product_name p,
+.product_parameter p{
+    text-overflow: ellipsis;
+}
 .product:hover{
     background-color: #F7F9FC;
 }

@@ -3,7 +3,7 @@ import {useUserContext} from "../../context/userContext";
 import Button from "../../UI/Button/Button";
 import Radio from "../../UI/Radio/Radio";
 import classes from "../AddProduct/addProductStepTwo.module.css"
-import {Patterns} from "../../mockdata/validation";
+import {Patterns} from "../../mockdata/Patterns";
 import {airIcon, boatIcon, stepTwo, trackIcon} from "../../mockdata/icons";
 import {moveStepTwoInitVal} from "../../assets/utilits/Move";
 

@@ -4,7 +4,7 @@ import PurchasingTechnology from "../../UI/PurchasingTechnology/PurchasingTechno
 import Button from "../../UI/Button/Button";
 import {bindInputProps} from "../../assets/utilits/utilits";
 import {useUserContext} from "../../context/userContext";
-import {Patterns} from "../../mockdata/validation";
+import {Patterns} from "../../mockdata/Patterns";
 import {addProductStepOneInitVal, sampleNewProduct} from "../../assets/utilits/addProduct";
 import {stepOne} from "../../mockdata/icons";
 

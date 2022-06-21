@@ -13,8 +13,6 @@ const Input = ({
                  defaultValue
                }
 ) => {
-
-
   return (
     <label className={classes.label}>
       {label}

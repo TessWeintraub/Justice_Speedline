@@ -2,6 +2,7 @@ import React from 'react';
 import classes from "./Product.module.css";
 import Checkbox from "../Checkbox/Checkbox";
 import {useUserContext} from "../../context/userContext";
+import {airProduct, seaProduct, truckProduct} from "../../mockdata/icons";
 
 const Product = ({
                 isChecked,
@@ -9,6 +10,7 @@ const Product = ({
                 idCheckbox,
                 onChangeCheckbox,
                  }) => {
+
   const {setActiveWarehouse,setProductsCheck} = useUserContext()
 
   const click = (element) => {
@@ -33,6 +35,9 @@ const Product = ({
                 <p>{data.four}</p>
               </div>
               <div className={classes.product_parameter}>
+                {
+                  data.five === 'AIR' && airProduct || data.five === 'SEA' && seaProduct || data.five === 'TRUCK' && truckProduct
+                }
                 <p>{data.five}</p>
               </div>
         </div>

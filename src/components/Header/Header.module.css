@@ -11,3 +11,6 @@
     align-items: center;
     gap: 36px;
 }
+.header_nav span{
+    cursor: pointer;
+}

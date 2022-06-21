@@ -11,3 +11,8 @@
     background-position:  center right,top right;
     background-size: 55% 75%,  42% 100vh;
 }
+@media (max-width: 1000px) {
+    .mainPage{
+        background-size: 30% 45%,  22% 100vh;
+    }
+}

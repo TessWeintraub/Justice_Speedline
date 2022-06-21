@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import {useUserContext} from "../../../context/userContext";
 import Input from "../../../UI/Input/Input";
 import Button from "../../../UI/Button/Button";
-import {useUserContext} from "../../../context/userContext";
 import {bindInputProps} from "../../../assets/utilits/utilits";
 import {sampleNewUser, signUpInitStat} from "../../../assets/utilits/signUp";
 
@@ -21,7 +21,6 @@ const SignUp = ({setModal}) => {
 
 
   const registration = () => {
-    console.log(users)
     const searchUser = users.length ? users.filter((user) => user.email === fields.email.value) : []
     if (searchUser.length) { // Если пользователь был найден в базе
       setFields({
@@ -46,7 +45,7 @@ const SignUp = ({setModal}) => {
   return (
     <>
       <Input {...bindInputProps(fields,setFields,'email','Email')} />
-      <Input {...bindInputProps(fields,setFields,'password','Password')} />
+      <Input {...bindInputProps(fields,setFields,'password','Password', 'password')} />
       <Button text='Sign up' btnDisabled={disabled} onClick={() => registration()}/>
     </>
   );

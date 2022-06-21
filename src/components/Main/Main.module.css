@@ -26,6 +26,15 @@
     align-items: center;
     gap: 1.5rem;
 }
+.main_title_content > label {
+    margin: 0;
+    height: 46px;
+    width: 190px;
+}
+.main_title_content > label > select{
+    font-size: 12px;
+    padding: 1rem;
+}
 .main_content{
     display: flex;
     flex-direction: column;

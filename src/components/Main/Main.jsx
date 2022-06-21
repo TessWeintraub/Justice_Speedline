@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useUserContext} from "../../context/userContext";
 import Button from "../../UI/Button/Button";
 import Select from "../../UI/Select/Select";
@@ -10,24 +10,25 @@ import AddProductStepOne from "../AddProduct/AddProductStepOne";
 import AddProductStepTwo from "../AddProduct/addProductStepTwo";
 import AddProductStepThree from "../AddProduct/AddProductStepThree";
 import Footer from "../../UI/Footer/Footer";
-import classes from "./Main.module.css";
-import houseModal from "../../assets/svg/houseModal.svg";
-import waybill from "../../assets/svg/waybill.svg";
 import warehouses from "../Warehouses/Warehouses";
 import MoveStepOne from "../Move/MoveStepOne";
 import MoveStepTwo from "../Move/MoveStepTwo";
 import MoveStepThree from "../Move/MoveStepThree";
+import houseModal from "../../assets/svg/houseModal.svg";
+import waybill from "../../assets/svg/waybill.svg";
+import classes from "./Main.module.css";
+import {airProduct, seaProduct, truckProduct} from "../../mockdata/icons";
 
 
 const Main = ({data, setWarehouse}) => {
-  const {userAuth, setUserAuth,setProductsCheck,productsCheck,activeWarehouse} = useUserContext()
+  const {setUserAuth,setProductsCheck,productsCheck,activeWarehouse} = useUserContext()
   const [stepModal, setStepModal] = useState(0)
+
   const key = data.warehouses && 'warehouses' || data.products && 'products'
 
   const allChecked = data[key].every(({checked}) => checked)
 
   const checkAll = (element) => {
-    console.log(data[key])
     data[key].length && setWarehouse(data => {
       return {
         ...data,
@@ -36,8 +37,8 @@ const Main = ({data, setWarehouse}) => {
     })
     element.checked ? setProductsCheck(data[key]) : setProductsCheck([])
   }
+
   const checkCur = (element, dataProduct, id) => {
-    console.log(data[key])
     setWarehouse(data => {
       return {
         ...data,
@@ -128,6 +129,7 @@ const Main = ({data, setWarehouse}) => {
         }
       }
     )
+
     setWarehouse({...data,[key]: deleteProduct})
     setProductsCheck([])
   }
@@ -166,7 +168,8 @@ const Main = ({data, setWarehouse}) => {
               <p>{data.characteristic.four}</p>
             </div>
             <div className={classes.main_content_title_category}>
-              <p>{data.characteristic.five}</p>
+              <p>
+                {data.characteristic.five}</p>
             </div>
           </div>
           <div className={classes.main_content_products} style={{ maxHeight : productsCheck.length!==0 ? 'calc(100vh - 422px)' : '100%'}}>

@@ -6,19 +6,25 @@ import Header from "../Header/Header";
 import classes from "./Warehouses.module.css";
 
 const Warehouses = () => {
-  const {userAuth, setUsersAuth, activeWarehouse} = useUserContext()
-  const [warehouse, setWarehouse] = useState(userAuth)
+  const {userAuth,  activeWarehouse} = useUserContext()
+  const [data, setData] = useState(userAuth)
 
 
-  useEffect(()=>activeWarehouse ? setWarehouse(activeWarehouse) : setWarehouse(userAuth),[activeWarehouse])
-  // useEffect(() => setUsersAuth(...userAuth,), [warehouse])
+  useEffect(()=>
+  {
+    activeWarehouse
+      ?
+      setData(activeWarehouse)
+      :
+      setData(userAuth)
+  }, [activeWarehouse])
 
   return (
     <section className={classes.warehouses}>
-      <NavBar setWarehouse={setWarehouse}/>
+      <NavBar setWarehouse={setData}/>
       <section className={classes.warehouses_content}>
         <Header/>
-        <Main data={warehouse} setWarehouse={setWarehouse}/>
+        <Main data={data} setWarehouse={setData}/>
       </section>
     </section>
 

@@ -7,11 +7,11 @@ import {useUserContext} from "../../context/userContext";
 
 
 const NavBar = ({setWarehouse}) => {
-    const {setProductsCheck,userAuth} = useUserContext()
+    const {setProductsCheck,userAuth,setActiveWarehouse} = useUserContext()
     const click = () => {
         setProductsCheck([])
         setWarehouse(userAuth)
-
+        setActiveWarehouse(null)
     }
     return (
         <nav className={classes.navBar}>

@@ -4,6 +4,7 @@ export const moveStepOneInitVal = {
     errorMessage: 'Поле заполнено некорректно',
     errorBoolean: false,
     touched: false,
+    array: []
 }
 }
 export const moveStepTwoInitVal = {

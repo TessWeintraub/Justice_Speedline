@@ -1,26 +1,33 @@
-import React from 'react';
+import React, {useState} from 'react';
 import classes from "./Select.module.css";
 
 // const Select = ({warehouses}) => {
-//   console.log(warehouses && warehouses.map(warehouse => warehouse.id ))
 //     return (
 //         <label className={classes.select}>
-//             {/*<input type='text' list='datalist' placeholder='Filter by' autoComplete="off" spellCheck="off"/>*/}
-//             {/*<datalist id='datalist'>*/}
-//             <select name='select'>
+//             <input type='text' list='datalist' placeholder='Filter by' autoComplete="off" spellCheck="off"/>
+//             <datalist id='datalist'>
 //               {warehouses && warehouses.map(warehouse => <option key={`${warehouse.id}_option`} value={warehouse.id}>{warehouse.one}</option> ) }
-//             </select>
-//             {/*</datalist>*/}
+//             </datalist>
 //         </label>
 //     );
 // };
 
-const Select = ({warehouses, onChange, onBlur, placeholder, label}) => {
+const Select = ({array, onChange, onBlur, placeholder, label}) => {
+  // const [val,setVal] = useState('')
+  // style={{color : val === 'Select a warehouse' && `#3E4C5966`}}
   return (
-    <label className={classes.select}>
+    <label className={classes.label}>
       {label}
-      <select name='select' onChange={onChange} onBlur={onBlur} placeholder={placeholder}>
-        {warehouses && warehouses.map(warehouse => <option key={`${warehouse.id}_option`} value={warehouse.id}>{warehouse.one}</option> ) }
+      <select
+        name='select'
+        className={classes.select}
+        onChange={onChange}
+        onBlur={onBlur}
+        placeholder={placeholder}
+        defaultValue={'Select a warehouse'}
+      >
+        <option value='Select a warehouse'>Select a warehouse</option>
+        {array && array.map(warehouse => <option key={`${warehouse.id}_option`} value={warehouse.id}>{warehouse.one}</option> ) }
       </select>
     </label>
   );

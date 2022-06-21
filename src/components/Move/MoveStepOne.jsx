@@ -1,19 +1,17 @@
-import React, {useEffect} from 'react';
-import {useState} from "react";
+import React, {useState,useEffect} from 'react';
 import {useUserContext} from "../../context/userContext";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import Select from "../../UI/Select/Select";
 import {reverseModal, stepOne} from "../../mockdata/icons";
 import {moveStepOneInitVal, sampleMove} from "../../assets/utilits/Move";
-import {bindInputProps} from "../../assets/utilits/utilits";
+import {Patterns} from "../../mockdata/Patterns";
 import classes from "./Move.module.css";
-import {Patterns} from "../../mockdata/validation";
 
 const MoveStepOne = ({setStepModal,products}) => {
   const [fields, setFields] = useState(moveStepOneInitVal)
   const [disabled, setDisabled] = useState(true);
-  const {setNewProduct,activeWarehouse,userAuth,setMove,productsCheck} = useUserContext()
+  const {activeWarehouse,userAuth,setMove,productsCheck} = useUserContext()
 
 
 
@@ -25,26 +23,25 @@ const MoveStepOne = ({setStepModal,products}) => {
   }, [fields])
 
 
-  const funcArg = {
-    in: [fields, setFields, 'inWh', 'In'],
-  }
+  // const funcArg = {
+  //   in: [fields, setFields, 'inWh', 'In'],
+  // }
 
-
- const bindInputProps = (state, setState ,key , label, type) => {
+const elseWarehouses = userAuth.warehouses.filter(warehouse => warehouse.id !== activeWarehouse.id)
+ const bindInputProps = () => {
     return {
-      label: label,
-      placeholder: `Enter a ${key}`,
-      value: state[key].value,
-      onChange: (e) => setState({
-        ...state,
-        [key]: {
-          ...state[key],
+      label: 'In',
+      value: fields.inWh.value,
+      onChange: (e) => setFields({
+        ...fields,
+        inWh: {
+          ...fields.inWh,
           value: e.target.value,
           touched: true,
-          errorBoolean: !Patterns[key].test(e.target.value),
+          errorBoolean: !Patterns.inWh.test(e.target.value),
         }
       }),
-      errorMessage: state[key].errorBoolean && state[key].errorMessage
+      array: elseWarehouses,
     }
   }
 
@@ -66,7 +63,7 @@ const MoveStepOne = ({setStepModal,products}) => {
       <div className={classes.reverse}>
         {reverseModal}
       </div>
-      <Select warehouses={userAuth.warehouses.filter(warehouse => warehouse.id !== activeWarehouse.id)} {...bindInputProps(...funcArg.in)}/>
+      <Select {...bindInputProps()}/>
       <Button text='Next step' btnDisabled={disabled} onClick={() => moveStepOne()}/>
     </>
   )
