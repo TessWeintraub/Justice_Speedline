@@ -4,6 +4,7 @@ import Input from "../../../UI/Input/Input";
 import Button from "../../../UI/Button/Button";
 import {bindInputProps} from "../../../assets/utilits/utilits";
 import {sampleNewUser, signUpInitStat} from "../../../assets/utilits/signUp";
+import axios from "axios";
 
 
 const SignUp = ({setModal}) => {
@@ -20,27 +21,42 @@ const SignUp = ({setModal}) => {
 
 
 
-  const registration = () => {
-    const searchUser = users.length ? users.filter((user) => user.email === fields.email.value) : []
-    if (searchUser.length) { // Если пользователь был найден в базе
-      setFields({
-          ...fields,
-          email: {
-            ...fields.email,
-            errorMessage: 'Email уже используется',
-            errorBoolean: true
-      }})
-      return
-    }
-
+  const registration = async () => {
     const newUser = {
-      ...sampleNewUser,
-      id: users.length ? users.last().id +1 : 1,
       email: fields.email.value,
       password: fields.password.value,
     }
-    setUsers([...users, newUser])
-    setModal('Log In')
+
+
+    const handlerError = status => {
+      switch (status){
+        case 409:
+          setFields({
+            ...fields,
+            email: {
+              ...fields.email,
+              errorMessage: 'Email уже используется',
+              errorBoolean: true
+            }})
+          return
+        case 404:
+          console.log('Error request')
+      }
+    }
+
+    try {
+      await axios.post('http://localhost:5000/api/auth/register', newUser)
+      setModal('Log In')
+    }catch (e) {
+      handlerError(e.response.status)
+    }
+
+
+
+
+
+    
+
   }
   return (
     <>

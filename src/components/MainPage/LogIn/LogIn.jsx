@@ -5,6 +5,7 @@ import Button from "../../../UI/Button/Button";
 import Input from "../../../UI/Input/Input";
 import {bindInputProps} from "../../../assets/utilits/utilits";
 import {logInInitStat} from "../../../assets/utilits/logIn";
+import axios from "axios";
 
 const LogIn = () => {
 
@@ -22,22 +23,36 @@ const LogIn = () => {
   }, [fields])
 
 
-  const authorization = () => {
-    const searchUser = users.length ? users.filter((user) => user.email === fields.email.value && user.password === fields.password.value) : []
-    if (!searchUser.length) {
-      setFields({
-        ...fields,
-        email: {
-          ...fields.email,
-          errorMessage: 'Пользователь не найден',
-          errorBoolean: true
-        }
-      })
-      return
+  const authorization = async () => {
+    const user = {
+      email: fields.email.value,
+      password: fields.password.value
     }
-    setUserAuth(...searchUser)
-    navigate('/warehouses', {replace: true})
-    setIsAuth(true)
+
+    try {
+      const request = await axios.post('http://localhost:5000/api/auth/login', user)
+      console.log(request.data)
+        // setUserAuth(request.data)
+        // navigate('/warehouses', {replace: true})
+        // setIsAuth(true)
+
+    }catch (e) {
+      handlerError(e.response.status)
+    }
+  }
+  const handlerError = status => {
+    switch (status){
+      case 404:
+        setFields({
+          ...fields,
+          email: {
+            ...fields.email,
+            errorMessage: 'Пользователь не найден',
+            errorBoolean: true
+          }
+        })
+        return
+    }
   }
 
 
