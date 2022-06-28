@@ -28,36 +28,30 @@ const SignUp = ({setModal}) => {
     }
 
 
-    const handlerError = status => {
-      switch (status){
-        case 409:
-          setFields({
-            ...fields,
-            email: {
-              ...fields.email,
-              errorMessage: 'Email уже используется',
-              errorBoolean: true
-            }})
-          return
-        case 404:
-          console.log('Error request')
-      }
-    }
-
     try {
       await axios.post('http://localhost:5000/api/auth/register', newUser)
       setModal('Log In')
     }catch (e) {
       handlerError(e.response.status)
     }
-
-
-
-
-
-    
-
   }
+
+  const handlerError = status => {
+    switch (status){
+      case 409:
+        setFields({
+          ...fields,
+          email: {
+            ...fields.email,
+            errorMessage: 'Email уже используется',
+            errorBoolean: true
+          }})
+        return
+      case 404:
+        console.log('Error request')
+    }
+  }
+
   return (
     <>
       <Input {...bindInputProps(fields,setFields,'email','Email')} />

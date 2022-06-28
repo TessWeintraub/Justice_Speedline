@@ -31,7 +31,8 @@ const LogIn = () => {
 
     try {
       const request = await axios.post('http://localhost:5000/api/auth/login', user)
-      console.log(request.data)
+
+
         // setUserAuth(request.data)
         // navigate('/warehouses', {replace: true})
         // setIsAuth(true)
