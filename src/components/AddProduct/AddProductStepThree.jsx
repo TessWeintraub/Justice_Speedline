@@ -6,6 +6,8 @@ import classes from "./AddProductStepThree.module.css"
 import {Patterns} from "../../mockdata/Patterns";
 import {addProductStepThreeInitVal} from "../../assets/utilits/addProduct";
 import {cardIcon, moneyIcon, paypalIcon, stepThree} from "../../mockdata/icons";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const AddProductStepThree = ({setStepModal, setWarehouse ,warehouse}) => {
   const [isCheck, setIsCheck] = useState(<></>)
@@ -13,14 +15,12 @@ const AddProductStepThree = ({setStepModal, setWarehouse ,warehouse}) => {
   const [disabled, setDisabled] = useState(true);
   const {newProduct, setNewProduct, setUserAuth, userAuth, activeWarehouse} = useUserContext()
 
-
   useEffect(() => {
     const {payment} = fields;
     if (!payment.touched) return
     const isValid = !(!payment.errorBoolean && payment.value)
     setDisabled(isValid)
   }, [fields])
-
 
   useEffect(() => {
     isCheck.value && setFields({
@@ -34,32 +34,30 @@ const AddProductStepThree = ({setStepModal, setWarehouse ,warehouse}) => {
     })
   }, [isCheck])
 
-
-
-  const newProductStepThree = () => {
-  const product = {
-            ...newProduct,
-            id: warehouse.products.length > 0 ? warehouse.products.last().id + 1 : 1,
-            payment: fields.payment.value
-    }
-    setUserAuth({
-        ...userAuth,
-        warehouses:
-          userAuth.warehouses.map(warehouse =>
-            warehouse.id === activeWarehouse.id
-              ?
-              {
-                ...warehouse,
-                two: warehouse.products.length + 1,
-                products: [...warehouse.products, product]
+  const newProductStepThree = async () => {
+    const createProduct = await axios.post(
+      'http://localhost:5000/api/products/create',
+      {
+              warehouseId: activeWarehouse._id, // Id текущего склада
+              createProduct: {
+                ...newProduct,
+                payment: fields.payment.value
               }
-              :
-              warehouse)
-      }
+            },
+      {
+              headers:
+                {
+                  Authorization: `${Cookies.get("TOKEN")}`
+                }
+            }
     )
-    setWarehouse({...warehouse, products: [...warehouse.products, product]})
+    // Ищем текущий склад
+    const updatedWarehouse = await createProduct.data.warehouses.find( warehouse => warehouse._id === activeWarehouse._id)
+
+    setNewProduct({}) // Обнуляем состояние, которое хранит информацию о добавлении продукта
     setStepModal(6)
-    setNewProduct({})
+    setWarehouse(updatedWarehouse)
+    setUserAuth(createProduct.data)
   }
 
   return (

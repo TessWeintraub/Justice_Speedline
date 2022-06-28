@@ -27,7 +27,7 @@ const Select = ({array, onChange, onBlur, placeholder, label}) => {
         defaultValue={'Select a warehouse'}
       >
         <option value='Select a warehouse'>Select a warehouse</option>
-        {array && array.map(warehouse => <option key={`${warehouse.id}_option`} value={warehouse.id}>{warehouse.one}</option> ) }
+        {array && array.map(warehouse => <option key={`${warehouse.id}_option`} value={warehouse._id}>{warehouse.one}</option> ) }
       </select>
     </label>
   );

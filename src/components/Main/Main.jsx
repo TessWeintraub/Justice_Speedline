@@ -17,16 +17,14 @@ import MoveStepThree from "../Move/MoveStepThree";
 import houseModal from "../../assets/svg/houseModal.svg";
 import waybill from "../../assets/svg/waybill.svg";
 import classes from "./Main.module.css";
-import {airProduct, seaProduct, truckProduct} from "../../mockdata/icons";
-
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Main = ({data, setWarehouse}) => {
   const {setUserAuth,setProductsCheck,productsCheck,activeWarehouse} = useUserContext()
-  const [stepModal, setStepModal] = useState(0)
-
-  const key = data.warehouses && 'warehouses' || data.products && 'products'
-
-  const allChecked = data[key].every(({checked}) => checked)
+  const [stepModal, setStepModal] = useState(0) // Шаги модального окна
+  const key = data?.warehouses && 'warehouses' || data?.products && 'products'
+  const allChecked = data && data[key].every(({checked}) => checked)
 
   const checkAll = (element) => {
     data[key].length && setWarehouse(data => {
@@ -42,10 +40,10 @@ const Main = ({data, setWarehouse}) => {
     setWarehouse(data => {
       return {
         ...data,
-        [key]: data[key].map((item) => item.id === id ? {...item, checked: !item.checked} : item)
+        [key]: data[key].map((item) => item._id === id ? {...item, checked: !item.checked} : item)
       }
     })
-    const deleteProduct = productsCheck.filter(product => product.id !== id)
+    const deleteProduct = productsCheck.filter(product => product._id !== id)
     element.checked ? setProductsCheck([...productsCheck, dataProduct]) : setProductsCheck(deleteProduct)
   }
 
@@ -102,47 +100,42 @@ const Main = ({data, setWarehouse}) => {
   }
 
 
-  const deleteProd = () =>{
-    const deleteProduct = data[key].filter(element=>{
-      return !productsCheck.some(elementDel=>{
-        return element.id === elementDel.id;
-      });
-    })
-    key === 'warehouses' && setUserAuth( userAuth => {
-      return {
-        ...userAuth,
-        [key]: deleteProduct
-      }})
-    
-    key === 'products' && setUserAuth( userAuth => {
-        return {
-          ...userAuth,
-          warehouses:
-            userAuth.warehouses.map(warehouse=> warehouse.id === activeWarehouse.id
-            ?
-            {...warehouse,
-              two: deleteProduct.length,
-              products: deleteProduct}
-            :
-            warehouse
-          )
-        }
-      }
-    )
+  const deleteProd = async () =>{
+    if (key === 'warehouses'){
+      const updatedUser = await axios.post('http://localhost:5000/api/warehouses/remove',{
+        warehouses: productsCheck.map( element => element._id)
+      },{
+        headers: {Authorization: `${Cookies.get("TOKEN")}`},
+      })
+      await setUserAuth( updatedUser.data)
+      await setWarehouse(updatedUser.data)
+      setProductsCheck([])
+      return
+    }
 
-    setWarehouse({...data,[key]: deleteProduct})
-    setProductsCheck([])
+    if (key === 'products') {
+      const updatedUser = await axios.post('http://localhost:5000/api/products/remove',{
+        warehouseId: activeWarehouse._id,
+        removeProducts: productsCheck.map( element => element._id)
+      },{
+        headers: {Authorization: `${Cookies.get("TOKEN")}`},
+      })
+      const updatedWarehouse = updatedUser.data.warehouses.find( warehouse => warehouse._id === activeWarehouse._id)
+      await setUserAuth(updatedUser.data)
+      await setWarehouse(updatedWarehouse)
+      setProductsCheck([])
+    }
   }
 
   return (
     <>
       <main className={classes.main} >
         <section className={classes.main_title}>
-          <h1 className={classes.main_title_h1}>{data.characteristic.title}</h1>
+          <h1 className={classes.main_title_h1}>{data?.characteristic?.title}</h1>
           <div className={classes.main_title_content}>
             <Select/>
             <Button
-              text={data.characteristic.button_text}
+              text={data?.characteristic?.button_text}
               onClick={() => data.warehouses && setStepModal(1) || data.products && setStepModal(3)}
               fontSize={'0.75rem'}
             />
@@ -156,36 +149,43 @@ const Main = ({data, setWarehouse}) => {
                 isChecked={allChecked}
                 idCheckbox={'all'}
               />
-              <p>{data.characteristic.one}</p>
+              <p>{data?.characteristic?.one}</p>
             </div>
             <div className={classes.main_content_title_category}>
-              <p>{data.characteristic.two}</p>
+              <p>{data?.characteristic?.two}</p>
             </div>
             <div className={classes.main_content_title_category}>
-              <p>{data.characteristic.three}</p>
+              <p>{data?.characteristic?.three}</p>
             </div>
             <div className={classes.main_content_title_category}>
-              <p>{data.characteristic.four}</p>
+              <p>{data?.characteristic?.four}</p>
             </div>
             <div className={classes.main_content_title_category}>
               <p>
-                {data.characteristic.five}</p>
+                {data?.characteristic?.five}</p>
             </div>
           </div>
-          <div className={classes.main_content_products} style={{ maxHeight : productsCheck.length!==0 ? 'calc(100vh - 422px)' : '100%'}}>
+          <div className={classes.main_content_products}
+               style={{ maxHeight : productsCheck.length !== 0 ? 'calc(100vh - 422px)' : '100%'}}>
             {data[key].map((element) =>
               <Product
-                key={`${element.id}_${key}`}
+                key={`${element._id}_${key}`}
                 data={element}
                 onChangeCheckbox={checkCur}
                 isChecked={element.checked}
-                idCheckbox={element.id}
+                idCheckbox={element._id}
               />)}
           </div>
         </section>
-        {productsCheck.length !== 0 && <Footer products={productsCheck} onClickDel={()=>deleteProd()} onClickMove={key==='products' && (()=>setStepModal(7))}/>}
+        {productsCheck.length !== 0
+          &&
+          <Footer
+            products={productsCheck}
+            onClickDel={()=>deleteProd()}
+            onClickMove={key==='products' && (()=>setStepModal(7))}
+          />
+        }
       </main>
-
 
       {stepModal !== 0
         &&

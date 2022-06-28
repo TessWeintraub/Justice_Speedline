@@ -13,12 +13,15 @@ const MoveStepOne = ({setStepModal,products}) => {
   const [disabled, setDisabled] = useState(true);
   const {activeWarehouse,userAuth,setMove,productsCheck} = useUserContext()
 
-
+useEffect(()=>{
+  console.log(fields)
+},[fields])
 
   useEffect(() => {
     const {inWh} = fields;
     if (!inWh.touched) return
-    const isValid = !(!inWh.errorBoolean && inWh.value)
+    const isValid = (!inWh.errorBoolean && inWh.value)
+    console.log(isValid)
     setDisabled(isValid)
   }, [fields])
 
@@ -27,7 +30,7 @@ const MoveStepOne = ({setStepModal,products}) => {
   //   in: [fields, setFields, 'inWh', 'In'],
   // }
 
-const elseWarehouses = userAuth.warehouses.filter(warehouse => warehouse.id !== activeWarehouse.id)
+const elseWarehouses = userAuth.warehouses.filter(warehouse => warehouse._id !== activeWarehouse._id)
  const bindInputProps = () => {
     return {
       label: 'In',
@@ -48,8 +51,8 @@ const elseWarehouses = userAuth.warehouses.filter(warehouse => warehouse.id !== 
   const moveStepOne = () =>{
     setMove({
       ...sampleMove,
-      from: activeWarehouse.id,
-      inWh: Number(fields.inWh.value),
+      from: activeWarehouse._id,
+      inWh: fields.inWh.value,
       products:  productsCheck
     })
     setStepModal(8)
