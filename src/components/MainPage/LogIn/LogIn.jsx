@@ -6,10 +6,11 @@ import Input from "../../../UI/Input/Input";
 import {bindInputProps} from "../../../assets/utilits/utilits";
 import {logInInitStat} from "../../../assets/utilits/logIn";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const LogIn = () => {
 
-  const {users, setUserAuth, setIsAuth} = useUserContext()
+  const {setUserAuth, setIsAuth} = useUserContext()
   const [fields, setFields] = useState(logInInitStat)
   const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate()
@@ -30,12 +31,16 @@ const LogIn = () => {
     }
 
     try {
-      const request = await axios.post('http://localhost:5000/api/auth/login', user)
+      const tokenRequest = await axios.post('http://localhost:5000/api/auth/login', user)
+      Cookies.set("TOKEN", tokenRequest.data.token)
 
+      const userData = await axios.get('http://localhost:5000/api/users/users',{
+        headers: {Authorization: `${Cookies.get("TOKEN")}`},
+      })
 
-        // setUserAuth(request.data)
-        // navigate('/warehouses', {replace: true})
-        // setIsAuth(true)
+      await setUserAuth(userData.data)
+      await navigate('/warehouses', {replace: true})
+      await setIsAuth(true)
 
     }catch (e) {
       handlerError(e.response.status)

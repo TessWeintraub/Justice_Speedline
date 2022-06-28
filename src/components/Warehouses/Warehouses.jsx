@@ -5,10 +5,10 @@ import Main from "../Main/Main";
 import Header from "../Header/Header";
 import classes from "./Warehouses.module.css";
 
+
 const Warehouses = () => {
   const {userAuth,  activeWarehouse} = useUserContext()
   const [data, setData] = useState(userAuth)
-
 
   useEffect(()=>
   {

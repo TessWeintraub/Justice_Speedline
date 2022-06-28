@@ -6,13 +6,15 @@ import {Patterns} from "../../mockdata/Patterns";
 import {cardIcon, moneyIcon, paypalIcon, stepThree} from "../../mockdata/icons";
 import {moveStepThreeInitVal} from "../../assets/utilits/Move";
 import classes from "../AddProduct/AddProductStepThree.module.css"
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const MoveStepThree = ({setStepModal, setWarehouse, warehouse}) => {
 
   const [isCheck, setIsCheck] = useState(<></>)
   const [fields, setFields] = useState(moveStepThreeInitVal)
   const [disabled, setDisabled] = useState(true);
-  const {move, setUserAuth,userAuth} = useUserContext()
+  const {move, setUserAuth, activeWarehouse} = useUserContext()
 
 
   useEffect(() => {
@@ -36,61 +38,24 @@ const MoveStepThree = ({setStepModal, setWarehouse, warehouse}) => {
   }, [isCheck])
 
 
-  const moveStepThree = () => {
-    const productsDelete = {
-      ...move
-    }
-    const lastId = userAuth.warehouses.filter(warehouse => warehouse.id === move.inWh)[0].products.last()
-    const moveProduct = {
-      ...move,
-      products: move.products.map((product,index )=> {
-        return {
-          ...product,
-          id: lastId ? lastId.id + (index + 1) : (index + 1),
-          five: move.shipping,
-          payment: fields.payment.value
-        }
-      })
+  const moveStepThree = async () => {
+    const moveProducts = {
+      newPayment: fields.payment.value,
+      newShipping: move.shipping,
+      warehouseIdIn: move.inWh, // Id склада куда нужно переместить продукты
+      warehouseIdFrom: move.from, // Id склада откуда нужно переместить продукты
+      moveProducts: move.products.map(product => product._id) // Массив id продуктов, которые нужно переместить
     }
 
-    const removeProductInWarehouse = warehouse.products.filter(element => {
-      return !productsDelete.products.some(elementDel => {
-        return element.id === elementDel.id;
-      });
+    // Отправляем продукты на перемещение и получаем обновленные данные о пользователе
+    const updatedUser = await axios.post('http://localhost:5000/api/products/move', moveProducts, {
+      headers: {Authorization: `${Cookies.get("TOKEN")}`}
     })
 
-
-
-    setUserAuth(userAuth => {
-      return {
-        ...userAuth,
-        warehouses:
-          userAuth.warehouses.map(warehouse =>
-            warehouse.id === moveProduct.inWh
-              ?
-              {
-                ...warehouse,
-                two: warehouse.products.length + moveProduct.products.length,
-                products: [...warehouse.products, ...moveProduct.products]
-              }
-              :
-              warehouse.id === moveProduct.from ?
-                {
-                  ...warehouse,
-                  two: removeProductInWarehouse.length,
-                  products: [...removeProductInWarehouse]
-                }
-                :
-                warehouse
-          )
-      }
-    })
-    setWarehouse(warehouse => {
-      return {
-        ...warehouse,
-        products: removeProductInWarehouse
-      }
-    })
+    // Ищем склад в котором сейчас находимся
+    const updatedWarehouse = updatedUser.data.warehouses.find( warehouse => warehouse._id === activeWarehouse._id)
+    await setUserAuth(updatedUser.data)
+    await setWarehouse(updatedWarehouse)
     setStepModal(10)
   }
 

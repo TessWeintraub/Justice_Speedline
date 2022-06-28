@@ -3,10 +3,12 @@ import {useUserContext} from "../../context/userContext";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import {bindInputProps} from "../../assets/utilits/utilits"
-import {addWarehousesInitStat, sampleNewWarehouse} from "../../assets/utilits/addWarehouse";
+import {addWarehousesInitStat} from "../../assets/utilits/addWarehouse";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-const AddWarehouse = ({setStepModal,setWarehouse,warehouse}) => {
-  const {userAuth, setUserAuth} = useUserContext()
+const AddWarehouse = ({setStepModal,setWarehouse}) => {
+  const {setUserAuth} = useUserContext()
   const [fields, setFields] = useState(addWarehousesInitStat)
   const [disabled, setDisabled] = useState(true);
 
@@ -17,34 +19,35 @@ const AddWarehouse = ({setStepModal,setWarehouse,warehouse}) => {
     setDisabled(isValid)
   }, [fields])
 
-
-
   const addWarehouseFuncArg = {
     name: [ fields, setFields, 'name', 'Name of the warehouse'],
     length: [ fields, setFields, 'length', 'Length, m', 'number'],
     width: [ fields, setFields, 'width', 'Width, m', 'number'],
     height: [ fields, setFields, 'height', 'Height, m', 'number'],
   }
-  const addWarehouse = () => {
+  const addWarehouse = async () => {
 
-    const newWarehouse = {
-      ...sampleNewWarehouse,
-      id: userAuth.warehouses.length > 0 ? userAuth.warehouses.last().id + 1 : 1,
-      one: fields.name.value,
-      three: fields.length.value,
-      four: fields.width.value,
-      five: fields.height.value,
-      characteristic: {
-        ...sampleNewWarehouse.characteristic,
-        title: fields.name.value,
-      },
+    try {
+      const createWarehouse = await axios.post(
+        'http://localhost:5000/api/warehouses/create',
+        {
+                createWarehouse: {
+                  one: fields.name.value,
+                  three: fields.length.value,
+                  four: fields.width.value,
+                  five: fields.height.value
+                }
+              }
+              , {
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
+        })
+      await setStepModal(2)
+      await setUserAuth(createWarehouse.data)
+      await setWarehouse(createWarehouse.data)
+    }catch (e) {
+      console.log(e)
     }
-    setUserAuth({
-      ...userAuth,
-      warehouses: [...userAuth.warehouses,newWarehouse]
-    })
-    setWarehouse({...warehouse,warehouses: [...warehouse.warehouses,newWarehouse]})
-    setStepModal(2)
+
   }
 
 

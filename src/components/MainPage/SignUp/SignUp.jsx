@@ -26,8 +26,6 @@ const SignUp = ({setModal}) => {
       email: fields.email.value,
       password: fields.password.value,
     }
-
-
     try {
       await axios.post('http://localhost:5000/api/auth/register', newUser)
       setModal('Log In')
@@ -35,6 +33,7 @@ const SignUp = ({setModal}) => {
       handlerError(e.response.status)
     }
   }
+
 
   const handlerError = status => {
     switch (status){
@@ -51,7 +50,6 @@ const SignUp = ({setModal}) => {
         console.log('Error request')
     }
   }
-
   return (
     <>
       <Input {...bindInputProps(fields,setFields,'email','Email')} />

@@ -41,12 +41,10 @@ export const addProductStepThreeInitVal = {
 }
 
 export const sampleNewProduct = {
-  id: 0,
   one: '',
   two: '',
   three: '',
   four: '',
   five: '',
   payment: '',
-  checked: false
 }
