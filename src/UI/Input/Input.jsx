@@ -25,7 +25,6 @@ const Input = ({
         type={type ? type : 'text'}
         readOnly={readOnly && readOnly}
         defaultValue={defaultValue && defaultValue}
-        data-input
       />
       {errorMessage && <p className={classes.errorMessage}>{errorMessage}</p>}
     </label>

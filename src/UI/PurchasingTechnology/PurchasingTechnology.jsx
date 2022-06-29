@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from "./PurchasingTechnology.module.css";
 
-const PurchasingTechnology = ({setIsCheck, isCheck}) => {
+const PurchasingTechnology = ({setIsCheck, isCheck, defaultChecked}) => {
   const labelAttribute = (letter) => {
     return (
       {
@@ -19,7 +19,8 @@ const PurchasingTechnology = ({setIsCheck, isCheck}) => {
         name: 'purchasingTechnology',
         id: `radio_${letter}`,
         value: `${letter}`,
-        onClick: setIsCheck
+        onClick: setIsCheck,
+        defaultChecked: defaultChecked && defaultChecked === letter && true
       }
     )
   }
@@ -30,7 +31,7 @@ const PurchasingTechnology = ({setIsCheck, isCheck}) => {
       <div className={classes.container_content}>
         <label {...labelAttribute('A')}>
           A
-          <input {...inputAttribute('A')}/>
+          <input {...inputAttribute('A')} />
           <span className={classes.container_content_label_checkmark}></span>
         </label>
         <label {...labelAttribute('S')}>

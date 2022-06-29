@@ -27,6 +27,7 @@ import {ReactComponent as ReverseModal} from "../assets/svg/reverseModal.svg";
 import {ReactComponent as AirProduct} from "../assets/svg/airProduct.svg";
 import {ReactComponent as SeaProduct} from "../assets/svg/seaProduct.svg";
 import {ReactComponent as TruckProduct} from "../assets/svg/truckProduct.svg";
+import {ReactComponent as Edit} from "../assets/svg/edit.svg";
 
 
 export const homeIcon = <HomeIcon/>
@@ -58,4 +59,5 @@ export const reverseModal = <ReverseModal/>
 export const airProduct = <AirProduct/>
 export const seaProduct = <SeaProduct/>
 export const truckProduct = <TruckProduct/>
+export const edit = <Edit/>
 
