@@ -48,6 +48,9 @@ const SignUp = ({setModal}) => {
         return
       case 404:
         console.log('Error request')
+        return;
+      case 0:
+        setModal('Error')
     }
   }
   return (

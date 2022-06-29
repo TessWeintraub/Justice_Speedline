@@ -7,7 +7,7 @@ import Product from "../../UI/Product/Product";
 import Modal from "../../UI/Modal/Modal";
 import AddWarehouse from "../AddWarehouse/AddWarehouse";
 import AddProductStepOne from "../AddProduct/AddProductStepOne";
-import AddProductStepTwo from "../AddProduct/addProductStepTwo";
+import AddProductStepTwo from "../AddProduct/AddProductStepTwo";
 import AddProductStepThree from "../AddProduct/AddProductStepThree";
 import Footer from "../../UI/Footer/Footer";
 import warehouses from "../Warehouses/Warehouses";
@@ -23,9 +23,11 @@ import EditWarehouse from "../Edit/EditWarehouse";
 import EditProductStepOne from "../Edit/EditStepOne";
 import EditProductStepTwo from "../Edit/EditProductStepTwo";
 import EditProductStepThree from "../Edit/EditProductStepThree";
+import ErrorServer from "../../UI/Error/ErrorServer";
+import ErrorToken from "../../UI/Error/ErrorToken";
 
 const Main = ({data, setWarehouse}) => {
-  const {setUserAuth,setProductsCheck,productsCheck,activeWarehouse} = useUserContext()
+  const {setUserAuth,setProductsCheck,productsCheck,activeWarehouse, setIsAuth} = useUserContext()
   const [stepModal, setStepModal] = useState(0) // Шаги модального окна
   const key = data?.warehouses && 'warehouses' || data?.products && 'products'
   const allChecked = data && data[key].every(({checked}) => checked)
@@ -117,33 +119,47 @@ const Main = ({data, setWarehouse}) => {
       title: `Edit a ${productsCheck.length === 1 && productsCheck[0].one}`,
       close: () => setStepModal(0)
     },
+    15: {
+      close: () => setStepModal(0),
+    },
+    16: {
+      close: () => setIsAuth(false),
+    }
   }
 
 
   const deleteProd = async () =>{
     if (key === 'warehouses'){
-      const updatedUser = await axios.post('http://localhost:5000/api/warehouses/remove',{
-        warehouses: productsCheck.map( element => element._id)
-      },{
-        headers: {Authorization: `${Cookies.get("TOKEN")}`},
-      })
-      await setUserAuth( updatedUser.data)
-      await setWarehouse(updatedUser.data)
-      setProductsCheck([])
-      return
+      try {
+        const updatedUser = await axios.post('http://localhost:5000/api/warehouses/remove',{
+          warehouses: productsCheck.map( element => element._id)
+        },{
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
+        })
+        await setUserAuth( updatedUser.data)
+        await setWarehouse(updatedUser.data)
+        setProductsCheck([])
+        return
+      }catch (e) {
+        e.response.status === 401 ? setStepModal(16) : setStepModal(15)
+      }
     }
 
     if (key === 'products') {
-      const updatedUser = await axios.post('http://localhost:5000/api/products/remove',{
-        warehouseId: activeWarehouse._id,
-        removeProducts: productsCheck.map( element => element._id)
-      },{
-        headers: {Authorization: `${Cookies.get("TOKEN")}`},
-      })
-      const updatedWarehouse = updatedUser.data.warehouses.find( warehouse => warehouse._id === activeWarehouse._id)
-      await setUserAuth(updatedUser.data)
-      await setWarehouse(updatedWarehouse)
-      setProductsCheck([])
+      try {
+        const updatedUser = await axios.post('http://localhost:5000/api/products/remove',{
+          warehouseId: activeWarehouse._id,
+          removeProducts: productsCheck.map( element => element._id)
+        },{
+          headers: {Authorization: `${Cookies.get("TOKEN")}`},
+        })
+        const updatedWarehouse = updatedUser.data.warehouses.find( warehouse => warehouse._id === activeWarehouse._id)
+        await setUserAuth(updatedUser.data)
+        await setWarehouse(updatedWarehouse)
+        setProductsCheck([])
+      }catch (e) {
+        e.response.status === 401 ? setStepModal(16) : setStepModal(15)
+      }
     }
   }
 
@@ -226,9 +242,10 @@ const Main = ({data, setWarehouse}) => {
           {stepModal === 9 && <MoveStepThree setStepModal={setStepModal} setWarehouse={setWarehouse} warehouse={data}/>}
           {stepModal === 11 && <EditWarehouse setStepModal={setStepModal} setWarehouse={setWarehouse} warehouse={productsCheck}/>}
           {stepModal === 12 && <EditProductStepOne setStepModal={setStepModal} setWarehouse={setWarehouse} product={productsCheck}/>}
-          {stepModal === 13 && <EditProductStepTwo setStepModal={setStepModal} setWarehouse={setWarehouse} />}
-          {stepModal === 14 && <EditProductStepThree setStepModal={setStepModal} setWarehouse={setWarehouse} />}
-
+          {stepModal === 13 && <EditProductStepTwo setStepModal={setStepModal} setWarehouse={setWarehouse} product={productsCheck}/>}
+          {stepModal === 14 && <EditProductStepThree setStepModal={setStepModal} setWarehouse={setWarehouse} product={productsCheck}/>}
+          {stepModal === 15 && <ErrorServer btnOnClick={()=>setStepModal(0)}/>}
+          {stepModal === 16 && <ErrorToken/>}
         </Modal>
       }
     </>

@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react';
 import {useUserContext} from "../../context/userContext";
 import Button from "../../UI/Button/Button";
 import Radio from "../../UI/Radio/Radio";
-import classes from "./addProductStepTwo.module.css"
+import classes from "./AddProductStepTwo.module.css"
 import {Patterns} from "../../mockdata/Patterns";
 import {addProductStepTwoInitVal} from "../../assets/utilits/addProduct";
 import {airIcon, boatIcon, stepTwo, trackIcon} from "../../mockdata/icons";

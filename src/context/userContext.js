@@ -17,13 +17,15 @@ export const UserProvider = ({children}) => {
 
 
   useEffect(()=>{
-    console.log(editProduct)
-  },[editProduct])
-  useEffect(()=>{
     localStorage.setItem('IS_AUTH', JSON.stringify(isAuth))
+    if(!isAuth){
+      setNewProduct(null)
+      setActiveWarehouse(null)
+      setMove(null)
+      setEditProduct({})
+      setProductsCheck([])
+    }
   },[isAuth])
-
-
 
 
   return (

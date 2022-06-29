@@ -35,29 +35,33 @@ const AddProductStepThree = ({setStepModal, setWarehouse ,warehouse}) => {
   }, [isCheck])
 
   const newProductStepThree = async () => {
-    const createProduct = await axios.post(
-      'http://localhost:5000/api/products/create',
-      {
-              warehouseId: activeWarehouse._id, // Id текущего склада
-              createProduct: {
-                ...newProduct,
-                payment: fields.payment.value
-              }
-            },
-      {
-              headers:
-                {
-                  Authorization: `${Cookies.get("TOKEN")}`
-                }
+    try{
+      const createProduct = await axios.post(
+        'http://localhost:5000/api/products/create',
+        {
+          warehouseId: activeWarehouse._id, // Id текущего склада
+          createProduct: {
+            ...newProduct,
+            payment: fields.payment.value
+          }
+        },
+        {
+          headers:
+            {
+              Authorization: `${Cookies.get("TOKEN")}`
             }
-    )
-    // Ищем текущий склад
-    const updatedWarehouse = await createProduct.data.warehouses.find( warehouse => warehouse._id === activeWarehouse._id)
+        }
+      )
+      // Ищем текущий склад
+      const updatedWarehouse = await createProduct.data.warehouses.find( warehouse => warehouse._id === activeWarehouse._id)
 
-    setNewProduct({}) // Обнуляем состояние, которое хранит информацию о добавлении продукта
-    setStepModal(6)
-    setWarehouse(updatedWarehouse)
-    setUserAuth(createProduct.data)
+      setNewProduct({}) // Обнуляем состояние, которое хранит информацию о добавлении продукта
+      setStepModal(6)
+      setWarehouse(updatedWarehouse)
+      setUserAuth(createProduct.data)
+    }catch (e) {
+      e.response.status === 401 ? setStepModal(16) : setStepModal(15)
+    }
   }
 
   return (

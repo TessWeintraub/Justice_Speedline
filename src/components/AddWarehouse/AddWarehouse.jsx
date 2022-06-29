@@ -45,7 +45,7 @@ const AddWarehouse = ({setStepModal,setWarehouse}) => {
       await setUserAuth(createWarehouse.data)
       await setWarehouse(createWarehouse.data)
     }catch (e) {
-      console.log(e)
+      e.response.status === 401 ? setStepModal(16) : setStepModal(15)
     }
 
   }

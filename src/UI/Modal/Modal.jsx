@@ -11,12 +11,12 @@ const Modal = ({
                  btnOnClick,
                  src,
                }) => {
-
+  console.log(children)
   return (
     <section className={classes.modal}>
       <div className={classes.modal__content} >
         <img className={classes.modal__content_close} src={Close} alt={'close'} onClick={close}/>
-        {src && <img src={src} alt="modal_image" className={classes.modal__content__image}/>}
+        {src && <img src={src} alt="modal_image"/>}
         {title && <h1 className={classes.modal__content_title}>{title}</h1>}
 
         <div className={classes.modal__content__elements}>

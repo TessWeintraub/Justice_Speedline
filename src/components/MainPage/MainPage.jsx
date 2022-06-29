@@ -6,6 +6,7 @@ import Modal from "../../UI/Modal/Modal";
 import SignUp from "./SignUp/SignUp";
 import LogIn from "./LogIn/LogIn";
 import classes from "./MainPage.module.css";
+import ErrorServer from "../../UI/Error/ErrorServer";
 
 const MainPage = () => {
     const [isModal, setIsModal] = useState('')
@@ -41,8 +42,9 @@ const MainPage = () => {
                     buttonText={isModal}
                     close={() => setIsModal('')}
                 >
-                    {isModal === 'Sign Up' && <SignUp setModal={setIsModal}/>}
-                    {isModal === 'Log In' && <LogIn/>}
+                    {isModal === 'Sign Up' && <SignUp setModal={setIsModal} />}
+                    {isModal === 'Log In' && <LogIn setModal={setIsModal} /> }
+                    {isModal === 'Error' && <ErrorServer btnOnClick={()=>setIsModal('')}/>}
                 </Modal>
             }
         </section>

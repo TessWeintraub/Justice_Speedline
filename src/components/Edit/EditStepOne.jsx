@@ -9,17 +9,18 @@ import {stepOne} from "../../mockdata/icons";
 import {editProductStepOneInitVal, sampleEditProduct} from "../../assets/utilits/editProduct";
 
 const EditProductStepOne = ({setStepModal, product}) => {
-  console.log(product)
   const [isCheck, setIsCheck] = useState(<></>)
   const [fields, setFields] = useState(editProductStepOneInitVal)
   const [disabled, setDisabled] = useState(true);
-  const {setNewProduct, activeWarehouse, setEditProduct} = useUserContext()
+  const {activeWarehouse, setEditProduct} = useUserContext()
 
 
   useEffect(() => {
     const {name, manufacturer, number, technology} = fields;
     if (!name.touched && !manufacturer.touched && !number.touched && !technology.touched) return
     const isValid = !(!name.errorBoolean && !manufacturer.errorBoolean && name.value && manufacturer.value && !number.errorBoolean && !technology.errorBoolean && number.value && technology.value)
+    const test = name.value !== product[0].one || manufacturer.value !== product[0].two || number.value !== product[0].three || technology.value !== product[0].four
+    console.log(test)
     setDisabled(isValid)
   }, [fields])
 

@@ -2,17 +2,15 @@ import React, {useState,useEffect} from 'react';
 import {useUserContext} from "../../context/userContext";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
+import {bindInputProps} from "../../assets/utilits/utilits";
 import axios from "axios";
 import Cookies from "js-cookie";
-import {bindInputProps} from "../../assets/utilits/utilits";
 import {EditWarehouseInitStat} from "../../assets/utilits/EditWarehouse";
 
 const EditWarehouse = ({setStepModal,setWarehouse, warehouse}) => {
-  console.log(warehouse)
   const {setUserAuth,setProductsCheck} = useUserContext()
   const [fields, setFields] = useState(EditWarehouseInitStat)
   const [disabled, setDisabled] = useState(true);
-
 
   useEffect(()=>{
       setFields( {
@@ -36,8 +34,6 @@ const EditWarehouse = ({setStepModal,setWarehouse, warehouse}) => {
       })
   },[])
 
-
-
   useEffect(() => {
     console.log(fields)
     const {name, length, width ,height} = fields;
@@ -54,7 +50,6 @@ const EditWarehouse = ({setStepModal,setWarehouse, warehouse}) => {
   }
 
   const editWarehouse = async () => {
-
     try {
       const EditWarehouse = await axios.post(
         'http://localhost:5000/api/warehouses/edit',
@@ -75,7 +70,8 @@ const EditWarehouse = ({setStepModal,setWarehouse, warehouse}) => {
       await setWarehouse(EditWarehouse.data)
       await setProductsCheck([])
     }catch (e) {
-      console.log(e)
+      // Если пришел код авторизации, то выкинем на страницу авторизации, если нет, то сообщение, что сервер не доступен
+      e.response.status === 401 ? setStepModal(16) : setStepModal(15)
     }
 
   }
@@ -87,7 +83,6 @@ const EditWarehouse = ({setStepModal,setWarehouse, warehouse}) => {
       <Input {...bindInputProps(...EditWarehouseFuncArg.length)} defaultValue={warehouse[0].three}/>
       <Input {...bindInputProps(...EditWarehouseFuncArg.width)} defaultValue={warehouse[0].four}/>
       <Input {...bindInputProps(...EditWarehouseFuncArg.height)} defaultValue={warehouse[0].five}/>
-
       <Button text='Edit' btnDisabled={disabled} onClick={() => editWarehouse()}/>
     </>
   );

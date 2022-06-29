@@ -8,7 +8,7 @@ import {logInInitStat} from "../../../assets/utilits/logIn";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const LogIn = () => {
+const LogIn = ({setModal}) => {
 
   const {setUserAuth, setIsAuth} = useUserContext()
   const [fields, setFields] = useState(logInInitStat)
@@ -25,12 +25,12 @@ const LogIn = () => {
 
 
   const authorization = async () => {
-    const user = {
-      email: fields.email.value,
-      password: fields.password.value
-    }
-
     try {
+      const user = {
+        email: fields.email.value,
+        password: fields.password.value
+      }
+
       const tokenRequest = await axios.post('http://localhost:5000/api/auth/login', user)
       Cookies.set("TOKEN", tokenRequest.data.token)
 
@@ -46,6 +46,7 @@ const LogIn = () => {
       handlerError(e.response.status)
     }
   }
+
   const handlerError = status => {
     switch (status){
       case 404:
@@ -58,6 +59,18 @@ const LogIn = () => {
           }
         })
         return
+      case 401: setFields({
+        ...fields,
+        password: {
+          ...fields.password,
+          errorMessage: 'Пароль не верный',
+          errorBoolean: true
+        }
+      })
+        return;
+      case 0:
+        setModal('Error')
+        return;
     }
   }
 
