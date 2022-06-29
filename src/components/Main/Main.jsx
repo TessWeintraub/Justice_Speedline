@@ -19,6 +19,10 @@ import waybill from "../../assets/svg/waybill.svg";
 import classes from "./Main.module.css";
 import axios from "axios";
 import Cookies from "js-cookie";
+import EditWarehouse from "../Edit/EditWarehouse";
+import EditProductStepOne from "../Edit/EditStepOne";
+import EditProductStepTwo from "../Edit/EditProductStepTwo";
+import EditProductStepThree from "../Edit/EditProductStepThree";
 
 const Main = ({data, setWarehouse}) => {
   const {setUserAuth,setProductsCheck,productsCheck,activeWarehouse} = useUserContext()
@@ -96,7 +100,23 @@ const Main = ({data, setWarehouse}) => {
       src: houseModal,
       btnOnClick: () => setStepModal(0),
       close: () => setStepModal(0)
-    }
+    },
+    11: {
+      title: `Edit a ${ productsCheck.length === 1 && productsCheck[0].one}`,
+      close: () => setStepModal(0)
+    },
+    12: {
+      title: `Edit a ${productsCheck.length === 1 && productsCheck[0].one}`,
+      close: () => setStepModal(0)
+    },
+    13: {
+      title: `Edit a ${productsCheck.length === 1 && productsCheck[0].one}`,
+      close: () => setStepModal(0)
+    },
+    14: {
+      title: `Edit a ${productsCheck.length === 1 && productsCheck[0].one}`,
+      close: () => setStepModal(0)
+    },
   }
 
 
@@ -127,6 +147,8 @@ const Main = ({data, setWarehouse}) => {
     }
   }
 
+
+  console.log(key)
   return (
     <>
       <main className={classes.main} >
@@ -182,6 +204,11 @@ const Main = ({data, setWarehouse}) => {
           <Footer
             products={productsCheck}
             onClickDel={()=>deleteProd()}
+            onClickEdit={()=>
+              (key === 'warehouses' && setStepModal(11))
+              ||
+              (key === 'products' && setStepModal(12))
+            }
             onClickMove={key==='products' && (()=>setStepModal(7))}
           />
         }
@@ -197,6 +224,11 @@ const Main = ({data, setWarehouse}) => {
           {stepModal === 7 && <MoveStepOne setStepModal={setStepModal}/>}
           {stepModal === 8 && <MoveStepTwo setStepModal={setStepModal}/>}
           {stepModal === 9 && <MoveStepThree setStepModal={setStepModal} setWarehouse={setWarehouse} warehouse={data}/>}
+          {stepModal === 11 && <EditWarehouse setStepModal={setStepModal} setWarehouse={setWarehouse} warehouse={productsCheck}/>}
+          {stepModal === 12 && <EditProductStepOne setStepModal={setStepModal} setWarehouse={setWarehouse} product={productsCheck}/>}
+          {stepModal === 13 && <EditProductStepTwo setStepModal={setStepModal} setWarehouse={setWarehouse} />}
+          {stepModal === 14 && <EditProductStepThree setStepModal={setStepModal} setWarehouse={setWarehouse} />}
+
         </Modal>
       }
     </>

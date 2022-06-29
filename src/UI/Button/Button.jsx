@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from "./Button.module.css";
-import {reverse} from "../../mockdata/icons";
+import {edit, reverse} from "../../mockdata/icons";
 
 const Button = (
   {
@@ -36,6 +36,7 @@ const styleProps ={
       {children && children}
       {text}
       {text==='Move' && reverse}
+      {text==='Edit' && edit}
     </button>
   );
 };

@@ -12,9 +12,13 @@ export const UserProvider = ({children}) => {
   const [newProduct, setNewProduct] = useState(null)
   const [activeWarehouse, setActiveWarehouse] = useState(null)
   const [move, setMove] = useState(null)
+  const [editProduct, setEditProduct] = useState({})
   const [productsCheck, setProductsCheck] = useState([])
 
 
+  useEffect(()=>{
+    console.log(editProduct)
+  },[editProduct])
   useEffect(()=>{
     localStorage.setItem('IS_AUTH', JSON.stringify(isAuth))
   },[isAuth])
@@ -33,6 +37,8 @@ export const UserProvider = ({children}) => {
       newProduct,
       setNewProduct,
       productsCheck,
+      editProduct,
+      setEditProduct,
       setProductsCheck,
       move,
       setMove
